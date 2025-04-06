@@ -2,7 +2,7 @@
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ShoppingCart, Trash, AlertCircle, CheckCircle } from 'lucide-react';
+import { ShoppingCart, Trash, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -68,10 +68,10 @@ const Cart = () => {
       <div className="min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <div className="h-16 w-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="h-8 w-8 text-green-500" />
+            <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <h1 className="text-2xl font-bold mb-4">Thank you for your purchase!</h1>
-          <p className="text-gray-300 mb-6">Your order has been received and is being processed. You will receive an email with your purchase details shortly.</p>
+          <p className="text-muted-foreground mb-6">Your order has been received and is being processed. You will receive an email with your purchase details shortly.</p>
           <Link to="/">
             <Button>Return to Home</Button>
           </Link>
@@ -84,9 +84,9 @@ const Cart = () => {
     return (
       <div className="min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center max-w-md">
-          <ShoppingCart className="h-16 w-16 text-gray-400 mx-auto mb-6" />
+          <ShoppingCart className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
           <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
-          <p className="text-gray-300 mb-6">Looks like you haven't added any items to your cart yet.</p>
+          <p className="text-muted-foreground mb-6">Looks like you haven't added any items to your cart yet.</p>
           <Link to="/">
             <Button>Continue Shopping</Button>
           </Link>
@@ -105,12 +105,12 @@ const Cart = () => {
             {items.map((item) => (
               <div key={item.id} className="flex flex-col sm:flex-row gap-4 py-4 border-b border-border last:border-0">
                 <div className="h-20 w-20 bg-muted rounded-md flex items-center justify-center">
-                  <ShoppingCart className="h-10 w-10 text-gray-400" />
+                  <ShoppingCart className="h-10 w-10 text-muted-foreground" />
                 </div>
                 
                 <div className="flex-1 flex flex-col justify-center">
                   <h3 className="font-medium">{item.name}</h3>
-                  <p className="text-gray-400 text-sm">${item.price.toFixed(2)} per item</p>
+                  <p className="text-muted-foreground text-sm">${item.price.toFixed(2)} per item</p>
                 </div>
                 
                 <div className="flex items-center gap-4">
@@ -130,7 +130,7 @@ const Cart = () => {
                   
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="p-2 text-gray-400 hover:text-destructive transition-colors"
+                    className="p-2 text-muted-foreground hover:text-destructive transition-colors"
                     aria-label="Remove item"
                   >
                     <Trash className="h-5 w-5" />
@@ -142,14 +142,17 @@ const Cart = () => {
           
           <div className="flex justify-between items-center">
             <Link to="/">
-              <Button variant="outline">Continue Shopping</Button>
+              <Button variant="outline" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Continue Shopping
+              </Button>
             </Link>
             
             <div className="text-right">
               <p className="text-lg">
                 Total: <span className="font-bold">${totalPrice.toFixed(2)}</span>
               </p>
-              <p className="text-sm text-gray-400">{totalItems} item{totalItems !== 1 ? 's' : ''}</p>
+              <p className="text-sm text-muted-foreground">{totalItems} item{totalItems !== 1 ? 's' : ''}</p>
             </div>
           </div>
         </div>
@@ -197,7 +200,7 @@ const Cart = () => {
                 <div className="pt-2">
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90"
+                    className="w-full btn-gradient"
                     disabled={formState.isSubmitting}
                   >
                     {formState.isSubmitting ? 'Processing...' : 'Complete Purchase'}
@@ -209,7 +212,7 @@ const Cart = () => {
                   <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="UPI" className="h-8" />
                   <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png" alt="Razorpay" className="h-8" />
                 </div>
-                <p className="text-center text-xs text-gray-400">All payments are secure and encrypted</p>
+                <p className="text-center text-xs text-muted-foreground">All payments are secure and encrypted</p>
               </div>
             </form>
           </div>

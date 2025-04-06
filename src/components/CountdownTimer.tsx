@@ -38,12 +38,12 @@ const CountdownTimer = ({
   const isWarning = hours === 0 && minutes < 30;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 glass-card px-4 py-2 rounded-full inline-flex">
       <Clock className={`h-5 w-5 ${isWarning ? 'text-red-500' : 'text-primary'}`} />
-      <div className={`font-mono text-lg font-medium ${isWarning ? 'text-red-500' : 'text-white'}`}>
+      <div className={`font-mono text-lg font-medium ${isWarning ? 'text-red-500' : 'text-foreground'}`}>
         {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
       </div>
-      <span className={`text-sm ${isWarning ? 'text-red-500' : 'text-gray-400'}`}>
+      <span className={`text-sm ${isWarning ? 'text-red-500' : 'text-muted-foreground'}`}>
         {isWarning ? 'Hurry up!' : 'Left at this price'}
       </span>
     </div>
