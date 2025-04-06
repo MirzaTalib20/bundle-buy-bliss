@@ -1,8 +1,9 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Image } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 interface ProductProps {
   product: {
@@ -11,6 +12,8 @@ interface ProductProps {
     description: string;
     price: number;
     popular?: boolean;
+    image?: string;
+    rating?: number;
   };
   onAddToCart: () => void;
 }
@@ -28,24 +31,38 @@ const ProductCard = ({ product, onAddToCart }: ProductProps) => {
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <div className="relative">
-        <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center">
-          <ShoppingCart className="h-12 w-12 text-primary/50" />
+      <Link to={`/product/${product.id}`} className="block">
+        <div className="relative">
+          {product.image ? (
+            <div className="aspect-video overflow-hidden">
+              <img 
+                src={product.image} 
+                alt={product.name} 
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          ) : (
+            <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center">
+              <Image className="h-12 w-12 text-primary/50" />
+            </div>
+          )}
+          
+          {product.popular && (
+            <div className="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
+              Popular
+            </div>
+          )}
         </div>
-        
-        {product.popular && (
-          <div className="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
-            Popular
-          </div>
-        )}
-      </div>
+      </Link>
       
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-bold text-lg">{product.name}</h3>
+          <Link to={`/product/${product.id}`} className="hover:text-primary transition-colors">
+            <h3 className="font-bold text-lg">{product.name}</h3>
+          </Link>
           <div className="flex items-center">
             <Star className="h-4 w-4 fill-yellow-500 text-yellow-500 mr-1" />
-            <span className="text-sm font-medium">4.9</span>
+            <span className="text-sm font-medium">{product.rating || "4.9"}</span>
           </div>
         </div>
         
@@ -54,7 +71,10 @@ const ProductCard = ({ product, onAddToCart }: ProductProps) => {
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold">${product.price.toFixed(2)}</span>
           <Button 
-            onClick={onAddToCart}
+            onClick={(e) => {
+              e.preventDefault();
+              onAddToCart();
+            }}
             variant="outline" 
             size="sm"
             className="border-primary text-primary hover:bg-primary hover:text-white transition-colors"
