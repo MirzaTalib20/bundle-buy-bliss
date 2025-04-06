@@ -24,7 +24,7 @@ const initialReviews = [
     id: '3',
     name: 'Emily Chen',
     rating: 4,
-    comment: 'Great selection of items. Would have given 5 stars but there were a few templates that didn't match my needs.',
+    comment: 'Great selection of items. Would have given 5 stars but there were a few templates that didn\'t match my needs.',
     date: '2 weeks ago'
   }
 ];
