@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Star, Image } from 'lucide-react';
+import { ShoppingCart, Star, Image, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -14,11 +14,11 @@ interface ProductProps {
     popular?: boolean;
     image?: string;
     rating?: number;
+    url:string;
   };
-  onAddToCart: () => void;
 }
 
-const ProductCard = ({ product, onAddToCart }: ProductProps) => {
+const ProductCard = ({ product }: ProductProps) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (
@@ -31,7 +31,6 @@ const ProductCard = ({ product, onAddToCart }: ProductProps) => {
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <Link to={`/product/${product.id}`} className="block">
         <div className="relative">
           {product.image ? (
             <div className="aspect-video overflow-hidden">
@@ -53,13 +52,10 @@ const ProductCard = ({ product, onAddToCart }: ProductProps) => {
             </div>
           )}
         </div>
-      </Link>
       
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <Link to={`/product/${product.id}`} className="hover:text-primary transition-colors">
             <h3 className="font-bold text-lg">{product.name}</h3>
-          </Link>
           <div className="flex items-center">
             <Star className="h-4 w-4 fill-yellow-500 text-yellow-500 mr-1" />
             <span className="text-sm font-medium">{product.rating || "4.9"}</span>
@@ -69,17 +65,17 @@ const ProductCard = ({ product, onAddToCart }: ProductProps) => {
         <p className="text-muted-foreground text-sm mb-4">{product.description}</p>
         
         <div className="flex items-center justify-between">
-          <span className="text-xl font-bold">${product.price.toFixed(2)}</span>
+          <span className="text-xl font-bold">₹{product.price} /-</span>
           <Button 
             onClick={(e) => {
               e.preventDefault();
-              onAddToCart();
+              window.location.href = product.url;
             }}
             variant="outline" 
             size="sm"
             className="border-primary text-primary hover:bg-primary hover:text-white transition-colors"
           >
-            Add to Cart
+            Buy Now
           </Button>
         </div>
       </div>

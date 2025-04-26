@@ -25,7 +25,7 @@ const VideoSection = () => {
             {!isPlaying ? (
               <>
                 <img 
-                  src="https://images.unsplash.com/photo-1616499615064-c09a34d29acd?q=80&w=2574" 
+                  src="https://i.vimeocdn.com/video/1842117466-fdfffd5a7ef4404ba2195ae6e4316c7824f3b0d44fbeb2192f54f622708f9de3-d?mw=1000&mh=563&q=70" 
                   alt="Video thumbnail" 
                   className="w-full aspect-video object-cover"
                 />
@@ -44,7 +44,7 @@ const VideoSection = () => {
               <iframe 
                 width="100%" 
                 height="500" 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                src="https://i.vimeocdn.com/video/1842117466-fdfffd5a7ef4404ba2195ae6e4316c7824f3b0d44fbeb2192f54f622708f9de3-d?mw=1000&mh=563&q=70" 
                 title="Product Demo Video"
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 

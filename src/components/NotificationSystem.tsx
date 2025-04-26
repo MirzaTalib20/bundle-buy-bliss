@@ -13,15 +13,36 @@ type Notification = {
 };
 
 const notifications: Notification[] = [
-  { name: 'John', location: 'New York', product: 'Resell Right Bundle', time: '2 minutes ago' },
-  { name: 'Emma', location: 'London', product: 'Marketing Course Pack', time: '5 minutes ago' },
-  { name: 'Michael', location: 'Toronto', product: 'E-commerce Toolkit', time: '7 minutes ago' },
-  { name: 'Sophia', location: 'Sydney', product: 'Design Assets Bundle', time: '10 minutes ago' },
-  { name: 'David', location: 'Berlin', product: 'Resell Right Bundle', time: '15 minutes ago' },
-  { name: 'Olivia', location: 'Paris', product: 'Marketing Course Pack', time: '20 minutes ago' },
-  { name: 'James', location: 'Tokyo', product: 'E-commerce Toolkit', time: '25 minutes ago' },
-  { name: 'Isabella', location: 'Rome', product: 'Design Assets Bundle', time: '30 minutes ago' },
+  { name: 'Aarav', location: 'Mumbai', product: 'Resell Right Bundle', time: '2 minutes ago' },
+  { name: 'Diya', location: 'Delhi', product: 'Marketing Course Pack', time: '5 minutes ago' },
+  { name: 'Vivaan', location: 'Bangalore', product: 'E-commerce Toolkit', time: '7 minutes ago' },
+  { name: 'Ananya', location: 'Hyderabad', product: 'Design Assets Bundle', time: '10 minutes ago' },
+  { name: 'Krishna', location: 'Ahmedabad', product: 'Resell Right Bundle', time: '15 minutes ago' },
+  { name: 'Meera', location: 'Chennai', product: 'Marketing Course Pack', time: '20 minutes ago' },
+  { name: 'Arjun', location: 'Pune', product: 'E-commerce Toolkit', time: '25 minutes ago' },
+  { name: 'Isha', location: 'Kolkata', product: 'Design Assets Bundle', time: '30 minutes ago' },
+  { name: 'Ritika', location: 'Jaipur', product: 'Instagram Reels Templates', time: '32 minutes ago' },
+  { name: 'Yash', location: 'Lucknow', product: 'Digital Marketing Starter Kit', time: '35 minutes ago' },
+  { name: 'Sanya', location: 'Surat', product: 'Freelancer Toolkit', time: '40 minutes ago' },
+  { name: 'Dev', location: 'Nagpur', product: 'Startup Launch Bundle', time: '45 minutes ago' },
+  { name: 'Nisha', location: 'Bhopal', product: 'WhatsApp Business Templates', time: '48 minutes ago' },
+  { name: 'Kabir', location: 'Thane', product: 'Instagram Ad Kit', time: '50 minutes ago' },
+  { name: 'Pooja', location: 'Patna', product: 'Resell Rights Digital Products', time: '55 minutes ago' },
+  { name: 'Raghav', location: 'Indore', product: 'Small Business Branding Kit', time: '1 hour ago' },
+  { name: 'Tanya', location: 'Kanpur', product: 'Digital Coaching Toolkit', time: '1 hour ago' },
+  { name: 'Aditya', location: 'Ludhiana', product: 'Canva Templates for Creators', time: '1 hour ago' },
+  { name: 'Sneha', location: 'Vadodara', product: 'Course Creator Bundle', time: '2 hours ago' },
+  { name: 'Karan', location: 'Nashik', product: 'Social Media Calendar Pack', time: '2 hours ago' },
+  { name: 'Neha', location: 'Varanasi', product: 'Client Proposal Templates', time: '3 hours ago' },
+  { name: 'Manav', location: 'Amritsar', product: 'Local Business Kit', time: '4 hours ago' },
+  { name: 'Juhi', location: 'Rajkot', product: 'Content Planning System', time: '5 hours ago' },
+  { name: 'Rahul', location: 'Visakhapatnam', product: 'Affiliate Marketing Toolkit', time: '6 hours ago' },
+  { name: 'Lakshmi', location: 'Coimbatore', product: 'Online Business Starter Pack', time: '7 hours ago' },
+  { name: 'Imran', location: 'Meerut', product: 'Copywriting Templates Bundle', time: '8 hours ago' },
+  { name: 'Sonal', location: 'Guwahati', product: 'Lead Magnet Bundle', time: '9 hours ago' },
+  { name: 'Ayaan', location: 'Ranchi', product: 'Digital Business Blueprint', time: '10 hours ago' }
 ];
+
 
 const NotificationSystem = () => {
   const [lastNotificationIndex, setLastNotificationIndex] = useState(-1);
@@ -69,7 +90,7 @@ const NotificationSystem = () => {
     // Show first notification after a delay
     const initialTimeout = setTimeout(() => {
       showRandomNotification();
-    }, 3000);
+    }, 4000);
 
     // Set interval for recurring notifications (5-10 seconds)
     const interval = setInterval(() => {

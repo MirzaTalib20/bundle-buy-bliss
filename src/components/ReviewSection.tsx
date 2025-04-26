@@ -8,26 +8,27 @@ import { motion } from 'framer-motion';
 const initialReviews = [
   {
     id: '1',
-    name: 'Sarah Johnson',
+    name: 'Priya Sharma',
     rating: 5,
-    comment: 'Amazing bundle! These premium items have saved me so much time and helped me launch three new digital products in just one week.',
+    comment: 'Absolutely amazing bundle! These premium items helped me launch two new digital products in just a few days.',
     date: '2 days ago'
   },
   {
     id: '2',
-    name: 'Michael Thompson',
+    name: 'Rohan Mehta',
     rating: 5,
-    comment: 'Worth every penny! The commercial license means I can use these items for my clients without any hassle.',
+    comment: 'Totally worth it! The commercial license is a huge plus — no issues using these for client projects.',
     date: '1 week ago'
   },
   {
     id: '3',
-    name: 'Emily Chen',
+    name: 'Aisha Khan',
     rating: 4,
-    comment: 'Great selection of items. Would have given 5 stars but there were a few templates that didn\'t match my needs.',
+    comment: 'Loved most of the items. A few templates weren’t quite what I needed, but overall a great collection.',
     date: '2 weeks ago'
   }
 ];
+
 
 const ReviewSection = () => {
   const [reviews, setReviews] = useState(initialReviews);

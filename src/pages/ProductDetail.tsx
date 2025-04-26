@@ -21,6 +21,7 @@ export interface ProductType {
   detailDescription?: string;
   features?: string[];
   category?: string;
+  url?:string;
 }
 
 // We'll access this from the parent component
@@ -40,7 +41,8 @@ const productsData: ProductType[] = [
       "Lifetime access and updates",
       "Multiple niches covered"
     ],
-    category: "Digital Assets"
+    category: "Digital Assets",
+    url:""
   },
   {
     id: "marketing-course-pack",

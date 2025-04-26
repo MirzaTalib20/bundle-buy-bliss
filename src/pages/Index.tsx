@@ -13,19 +13,26 @@ import VideoSection from '@/components/VideoSection';
 import ContactForm from '@/components/ContactForm';
 import SalesCounter from '@/components/SalesCounter';
 import { ProductType } from './ProductDetail';
+import img from "@/assest/img/pan.jpg";
+import img1 from "@/assest/img/themes.jpg";
+import img2 from "@/assest/img/adboe.jpg";
+import img3 from "@/assest/img/digital.jpg";
+import img4 from "@/assest/img/youtube.jpg";
+import img5 from "@/assest/img/premiumtshirt.png";
+import img6 from "@/assest/img/canva.png";
+import homeImg from "@/assest/img/home.png";
 
-const BUNDLE_ID = "resell-right-bundle";
-const BUNDLE_PRICE = 9.99;
+const BUNDLE_PRICE = 499;
 
 const productData: ProductType[] = [
   {
-    id: "resell-right-bundle",
-    name: "Resell Right Bundle",
+    id: "200+ Crore Pan India Database",
+    name: "200+ Crore Pan India Database",
     description: "2000+ premium items with commercial license",
-    detailDescription: "The ultimate collection of premium digital assets ready for resale. This comprehensive bundle includes 2000+ items across various categories, all with full commercial rights. Perfect for entrepreneurs, marketers, and content creators looking to expand their digital product inventory without the hassle of creation.",
-    price: 9.99,
+    detailDescription: "Are you ready to take your business to new heights? Look no further! Our exclusive bundle offers an astounding <strong>200+ Crore Pan India Database,</strong> providing you with an invaluable resource for targeted marketing and growth. 💼💎📊",
+    price: 199,
     popular: true,
-    image: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?q=80&w=2574",
+    image: img,
     rating: 4.9,
     features: [
       "Commercial license for all items",
@@ -33,16 +40,17 @@ const productData: ProductType[] = [
       "Lifetime access and updates",
       "Multiple niches covered"
     ],
-    category: "Digital Assets"
+    category: "Digital Assets",
+    url:"https://turbopayz.com/view-product/XGtB7JE1ZrmqV6C71gMwi8v0"
   },
   {
-    id: "marketing-course-pack",
-    name: "Marketing Course Pack",
-    description: "Complete digital marketing masterclass",
+    id: "Themes & Pluggin",
+    name: "Themes & Pluggins Pack",
+    description: "Complete digital Pluggins",
     detailDescription: "Transform your marketing skills with our comprehensive Digital Marketing Masterclass. This all-in-one course pack covers everything from social media strategy to SEO, content marketing, email campaigns, and paid advertising. Perfect for beginners and intermediate marketers looking to sharpen their skills.",
-    price: 19.99,
+    price: 149,
     popular: false,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670",
+    image: img1,
     rating: 4.8,
     features: [
       "15+ hours of video content",
@@ -50,14 +58,15 @@ const productData: ProductType[] = [
       "Marketing templates and tools",
       "Certificate of completion"
     ],
-    category: "Courses"
+    category: "Courses",
+    url:"https://turbopayz.com/view-product/XGtB7JE1ZrmqV6C71gMwi8v0"
   },
   {
     id: "ecommerce-toolkit",
-    name: "E-commerce Toolkit",
-    description: "100+ templates and automation tools",
+    name: "E-commerce Toolkit and Premium Data",
+    description: "10000+ templates and automation tools",
     detailDescription: "Launch and scale your online store with our E-commerce Toolkit. This comprehensive package includes 100+ customizable templates for product pages, emails, and social media posts, along with powerful automation tools to streamline your operations and boost sales.",
-    price: 14.99,
+    price: 189,
     popular: true,
     image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2574",
     rating: 4.7,
@@ -71,12 +80,12 @@ const productData: ProductType[] = [
   },
   {
     id: "design-assets-bundle",
-    name: "Design Assets Bundle",
-    description: "500+ premium design elements",
+    name: "Adobe Premium Software",
+    description: "5000+ premium Software assest",
     detailDescription: "Elevate your creative projects with our Design Assets Bundle. Featuring over 500 premium design elements including icons, illustrations, mockups, templates, and more. Perfect for designers, marketers, and content creators looking to enhance their visual content without starting from scratch.",
-    price: 12.99,
+    price: 299,
     popular: false,
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2364",
+    image: img2,
     rating: 4.6,
     features: [
       "Vector graphics and illustrations",
@@ -88,12 +97,12 @@ const productData: ProductType[] = [
   },
   {
     id: "social-media-pack",
-    name: "Social Media Content Pack",
-    description: "200+ templates for all platforms",
+    name: "Digital Market Media & Social Media Course Pack",
+    description: "2000+ templates for all platforms",
     detailDescription: "Create stunning social media content with our comprehensive Social Media Pack. Featuring 200+ professionally designed templates optimized for Instagram, Facebook, Twitter, LinkedIn, and TikTok. Save time and boost engagement with eye-catching posts that convert followers into customers.",
-    price: 11.99,
+    price: 169,
     popular: true,
-    image: "https://images.unsplash.com/photo-1611162618758-b15d2b3ba731?q=80&w=2574",
+    image: img3,
     rating: 4.8,
     features: [
       "Platform-specific size templates",
@@ -105,12 +114,12 @@ const productData: ProductType[] = [
   },
   {
     id: "ai-copywriting-tools",
-    name: "AI Copywriting Tools",
-    description: "Next-gen writing assistant suite",
+    name: "50000+ Youtube Long & Short Videos",
+    description: "Next-genertatio Long & Short Videos writing assistant suite",
     detailDescription: "Revolutionize your content creation process with our AI Copywriting Tools. This comprehensive suite of writing assistants helps you craft compelling copy for websites, emails, ads, product descriptions, and more. Powered by advanced language models to ensure high-quality, engaging content every time.",
-    price: 24.99,
+    price: 199,
     popular: true,
-    image: "https://images.unsplash.com/photo-1677442135096-ba70ace6553c?q=80&w=2532",
+    image: img4,
     rating: 4.9,
     features: [
       "Multiple content types and tones",
@@ -122,12 +131,12 @@ const productData: ProductType[] = [
   },
   {
     id: "seo-toolkit",
-    name: "SEO Toolkit Pro",
-    description: "Complete search optimization suite",
+    name: "Premium T-Shirt Design Bundle",
+    description: "1 Lakh Plus Trending T-shirt Design Mega Bundle🥳🥳",
     detailDescription: "Boost your website's visibility with our complete SEO Toolkit Pro. This comprehensive suite includes keyword research tools, on-page optimization checklists, competitor analysis frameworks, backlink strategies, and more. Perfect for marketers and website owners looking to improve their search rankings.",
-    price: 17.99,
+    price: 139,
     popular: false,
-    image: "https://images.unsplash.com/photo-1562577308-9e66f0c65ce5?q=80&w=2574",
+    image: img5,
     rating: 4.7,
     features: [
       "Keyword research and analysis",
@@ -139,12 +148,12 @@ const productData: ProductType[] = [
   },
   {
     id: "webinar-package",
-    name: "Webinar Success Package",
-    description: "Complete webinar hosting toolkit",
+    name: "Canva Premium + Themes template Pack",
+    description: "2000 Canva Social Media Templates",
     detailDescription: "Host professional, high-converting webinars with our Webinar Success Package. This all-in-one solution includes presentation templates, promotional materials, engagement tools, and follow-up sequences designed to maximize attendance and conversion rates for your online events.",
-    price: 19.99,
+    price: 249,
     popular: false,
-    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2574",
+    image: img6,
     rating: 4.6,
     features: [
       "Professional slide templates",
@@ -157,9 +166,10 @@ const productData: ProductType[] = [
 ];
 
 const featuresData = [
-  { text: "2000+ Premium Items", icon: Box },
+  { text: "20000+ Premium Items", icon: Box },
   { text: "Lifetime Updates", icon: Check },
-  { text: "Commercial License", icon: Users },
+  { text: "Resell Rights License", icon: Users },
+  { text: "Get All Courses & Premium Data Assets in Reasonble Price", icon: Laptop },
 ];
 
 const whoIsForData = [
@@ -184,25 +194,25 @@ const Index = () => {
   const { addItem } = useCartStore();
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleAddToCart = (product) => {
-    setIsAdding(true);
+  // const handleAddToCart = (product) => {
+  //   setIsAdding(true);
     
-    setTimeout(() => {
-      addItem({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: 1
-      });
+  //   setTimeout(() => {
+  //     addItem({
+  //       id: product.id,
+  //       name: product.name,
+  //       price: product.price,
+  //       quantity: 1
+  //     });
       
-      setIsAdding(false);
+  //     setIsAdding(false);
       
-      toast.success(`${product.name} added to cart!`, {
-        position: "bottom-right",
-        autoClose: 2000
-      });
-    }, 600);
-  };
+  //     toast.success(`${product.name} added to cart!`, {
+  //       position: "bottom-right",
+  //       autoClose: 2000
+  //     });
+  //   }, 600);
+  // };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -218,7 +228,7 @@ const Index = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                Boost Your Business with <span className="gradient-text">Digital Products</span> – Unbeatable Prices!
+                Boost Your Business with <span className="gradient-text">Digital Hub</span>  Unbeatable Prices!
               </h1>
               
               <p className="text-lg text-muted-foreground max-w-xl">
@@ -241,7 +251,6 @@ const Index = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Button
-                  onClick={() => handleAddToCart(productData[0])}
                   size="lg"
                   className="text-lg btn-gradient"
                   disabled={isAdding}
@@ -252,8 +261,8 @@ const Index = () => {
                 
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-3xl font-bold">${BUNDLE_PRICE}</span>
-                    <span className="text-xl text-muted-foreground line-through">${(BUNDLE_PRICE * 5).toFixed(2)}</span>
+                    <span className="text-3xl font-bold">₹  {BUNDLE_PRICE}</span>
+                    <span className="text-xl text-muted-foreground line-through">₹{(BUNDLE_PRICE * 3).toFixed(2)}</span>
                   </div>
                   <span className="text-green-600 text-sm">Save 80% Today!</span>
                 </div>
@@ -274,7 +283,7 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-xl"></div>
                 <div className="glass-card rounded-xl overflow-hidden relative z-10 card-hover">
                   <img 
-                    src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?q=80&w=2574" 
+                    src={homeImg}
                     alt="Bundle Preview" 
                     className="w-full h-auto rounded-xl"
                   />
@@ -304,8 +313,7 @@ const Index = () => {
             {productData.slice(0, 8).map((product) => (
               <ProductCard 
                 key={product.id} 
-                product={product} 
-                onAddToCart={() => handleAddToCart(product)}
+                product={{...product, url: product.url ?? ''}} 
               />
             ))}
           </div>
@@ -366,7 +374,6 @@ const Index = () => {
             </p>
             
             <Button
-              onClick={() => handleAddToCart(productData[0])}
               size="lg"
               className="text-lg btn-gradient"
             >
