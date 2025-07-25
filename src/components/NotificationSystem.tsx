@@ -64,44 +64,51 @@ const NotificationSystem = () => {
     </div>
   );
 
-  useEffect(() => {
-    const showRandomNotification = () => {
-      // Get a random notification that is different from the last one
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(Math.random() * notifications.length);
-      } while (randomIndex === lastNotificationIndex && notifications.length > 1);
+ useEffect(() => {
+  let timeoutId: NodeJS.Timeout;
 
-      setLastNotificationIndex(randomIndex);
-      
-      const notification = notifications[randomIndex];
-      
-      toast(<PurchaseToast name={notification.name} location={notification.location} product={notification.product} />, {
-        position: "bottom-left",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        className: "glass-card",
-      });
-    };
+  const showRandomNotification = () => {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * notifications.length);
+    } while (randomIndex === lastNotificationIndex && notifications.length > 1);
 
-    // Show first notification after a delay
-    const initialTimeout = setTimeout(() => {
-      showRandomNotification();
-    }, 4000);
+    setLastNotificationIndex(randomIndex);
 
-    // Set interval for recurring notifications (5-10 seconds)
-    const interval = setInterval(() => {
-      showRandomNotification();
-    }, Math.random() * 5000 + 5000); // Random interval between 5-10 seconds
+    const notification = notifications[randomIndex];
 
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
-    };
-  }, [lastNotificationIndex]);
+    toast.dismiss(); // 🔁 Remove any existing toast
+
+toast(
+  <PurchaseToast
+    name={notification.name}
+    location={notification.location}
+    product={notification.product}
+  />,
+  {
+    position: "bottom-left",
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    className: "glass-card",
+  }
+);
+
+
+    // Schedule next notification with new randomized delay (10s–20s)
+    const nextDelay = Math.random() * 10000 + 10000;
+    timeoutId = setTimeout(showRandomNotification, nextDelay);
+  };
+
+  // First notification delay
+  timeoutId = setTimeout(showRandomNotification, 10000);
+
+  return () => {
+    clearTimeout(timeoutId);
+  };
+}, [lastNotificationIndex]);
 
   return (
     <ToastContainer

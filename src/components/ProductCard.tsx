@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart, Star, Image, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useCartStore } from '@/store/useCartStore';
 
 interface ProductProps {
   product: {
@@ -20,7 +21,8 @@ interface ProductProps {
 
 const ProductCard = ({ product }: ProductProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+  const { addItem } = useCartStore();
+
   return (
     <motion.div 
       className="glass-card rounded-xl overflow-hidden card-hover"
@@ -69,7 +71,13 @@ const ProductCard = ({ product }: ProductProps) => {
           <Button 
             onClick={(e) => {
               e.preventDefault();
-              window.location.href = product.url;
+              addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image || '',
+      quantity: 1,
+    });
             }}
             variant="outline" 
             size="sm"

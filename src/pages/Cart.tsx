@@ -104,9 +104,18 @@ const Cart = () => {
           <div className="glass-card rounded-lg p-6 mb-6">
             {items.map((item) => (
               <div key={item.id} className="flex flex-col sm:flex-row gap-4 py-4 border-b border-border last:border-0">
-                <div className="h-20 w-20 bg-muted rounded-md flex items-center justify-center">
-                  <ShoppingCart className="h-10 w-10 text-muted-foreground" />
-                </div>
+                <div className="h-20 w-20 bg-muted rounded-md flex items-center justify-center overflow-hidden">
+  {item.image ? (
+    <img 
+      src={item.image} 
+      alt={item.name} 
+      className="h-full w-full object-cover"
+    />
+  ) : (
+    <ShoppingCart className="h-10 w-10 text-muted-foreground" />
+  )}
+</div>
+
                 
                 <div className="flex-1 flex flex-col justify-center">
                   <h3 className="font-medium">{item.name}</h3>
@@ -125,7 +134,7 @@ const Cart = () => {
                   </div>
                   
                   <div className="min-w-20 text-right">
-                    <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                   
                   <button
@@ -150,7 +159,7 @@ const Cart = () => {
             
             <div className="text-right">
               <p className="text-lg">
-                Total: <span className="font-bold">${totalPrice.toFixed(2)}</span>
+                Total: <span className="font-bold">₹{totalPrice.toFixed(2)}</span>
               </p>
               <p className="text-sm text-muted-foreground">{totalItems} item{totalItems !== 1 ? 's' : ''}</p>
             </div>
