@@ -23,45 +23,89 @@ const Cart = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate form
-    if (!formState.name.trim() || !formState.email.trim()) {
-      setFormState(prev => ({
-        ...prev, 
-        error: 'Please fill in all fields'
-      }));
-      return;
-    }
-    
-    if (!formState.email.includes('@')) {
-      setFormState(prev => ({ 
-        ...prev, 
-        error: 'Please enter a valid email address' 
-      }));
-      return;
-    }
-    
-    // Set submitting state
-    setFormState(prev => ({ 
-      ...prev, 
-      isSubmitting: true, 
-      error: '' 
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!formState.name.trim() || !formState.email.trim()) {
+    setFormState((prev) => ({
+      ...prev,
+      error: 'Please fill in all fields',
     }));
-    
-    // Simulate API call
-    setTimeout(() => {
-      setFormState({
-        name: '',
-        email: '',
-        isSubmitting: false,
-        isSubmitted: true,
-        error: '',
-      });
-      clearCart();
-    }, 1500);
-  };
+    return;
+  }
+
+  if (!formState.email.includes('@')) {
+    setFormState((prev) => ({
+      ...prev,
+      error: 'Please enter a valid email address',
+    }));
+    return;
+  }
+
+  setFormState((prev) => ({
+    ...prev,
+    isSubmitting: true,
+    error: '',
+  }));
+
+  try {
+    // Replace this with your backend API endpoint
+    const response = await fetch('https://razor-pay-api.vercel.app/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: totalPrice,
+        currency: 'INR',
+        receipt: `rcpt_${Date.now()}`,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.success) throw new Error('Order creation failed');
+
+    const options = {
+      key: 'rzp_test_LL7ncusi9JDDJm', // DO NOT USE SECRET KEY HERE
+      amount: data.order.amount,
+      currency: data.order.currency,
+      name: 'Your Store Name',
+      description: 'Thank you for shopping with us!',
+      image: '/your-logo.png',
+      order_id: data.order.id,
+      handler: function (response: any) {
+        setFormState({
+          name: '',
+          email: '',
+          isSubmitting: false,
+          isSubmitted: true,
+          error: '',
+        });
+        clearCart();
+      },
+      prefill: {
+        name: formState.name,
+        email: formState.email,
+      },
+      notes: {
+        cartItems: JSON.stringify(items),
+      },
+      theme: {
+        color: '#6366f1',
+      },
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.error(error);
+    setFormState((prev) => ({
+      ...prev,
+      isSubmitting: false,
+      error: 'Payment failed. Please try again.',
+    }));
+  }
+};
+
 
   if (formState.isSubmitted) {
     return (
