@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 dotenv.config();
@@ -10,7 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration for production
+// CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://digital-hub-xi.vercel.app'] 
@@ -22,19 +21,57 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Health check endpoint
-app.get('/', (req, res) => {
-  res.json({ message: 'Bundle Buy Bliss API is running!' });
+// Simple auth middleware - validates credentials on each request
+const requireAuth = (req, res, next) => {
+  const { username, password } = req.headers;
+  
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  
+  if (username === adminUsername && password === adminPassword) {
+    return next();
+  } else {
+    return res.status(401).json({ message: 'Authentication required' });
+  }
+};
+
+// Admin login route - just validates credentials
+app.post('/api/admin/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    
+    if (username === adminUsername && password === adminPassword) {
+      res.json({ 
+        message: 'Login successful',
+        user: { username }
+      });
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('Connected to MongoDB Atlas');
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-  });
+// Check auth status - validates credentials
+app.get('/api/admin/status', (req, res) => {
+  const { username, password } = req.headers;
+  
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  
+  if (username === adminUsername && password === adminPassword) {
+    res.json({ 
+      authenticated: true, 
+      user: { username }
+    });
+  } else {
+    res.json({ authenticated: false });
+  }
+});
 
 // Product Schema
 const productSchema = new mongoose.Schema({
@@ -56,7 +93,7 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model('Product', productSchema);
 
 // Routes
-app.get('/api/products', async (req, res) => {
+app.get('/api/products', requireAuth, async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
@@ -77,7 +114,7 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
-app.post('/api/products', authenticateAdmin, async (req, res) => {
+app.post('/api/products', requireAuth, async (req, res) => {
   try {
     const product = new Product({
       ...req.body,
@@ -90,7 +127,7 @@ app.post('/api/products', authenticateAdmin, async (req, res) => {
   }
 });
 
-app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
+app.put('/api/products/:id', requireAuth, async (req, res) => {
   try {
     const product = await Product.findOneAndUpdate(
       { id: req.params.id },
@@ -106,7 +143,7 @@ app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
-app.delete('/api/products/:id', authenticateAdmin, async (req, res) => {
+app.delete('/api/products/:id', requireAuth, async (req, res) => {
   try {
     const product = await Product.findOneAndDelete({ id: req.params.id });
     if (!product) {
@@ -118,12 +155,19 @@ app.delete('/api/products/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
+// Health check
+app.get('/', (req, res) => {
+  res.json({ message: 'Bundle Buy Bliss API is running!' });
+});
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// Export for Vercel
 module.exports = app;
-
-
 

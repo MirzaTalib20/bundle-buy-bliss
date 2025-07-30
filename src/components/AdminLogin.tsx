@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { API_BASE } from '@/config/api';
 
 interface AdminLoginProps {
-  onLogin: (token: string) => void;
+  onLogin: () => void;
 }
 
 const AdminLogin = ({ onLogin }: AdminLoginProps) => {
@@ -27,14 +27,14 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Important for sessions
         body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('adminToken', data.token);
-        onLogin(data.token);
+        onLogin();
         toast.success('Login successful!');
       } else {
         toast.error(data.message || 'Login failed');
@@ -49,9 +49,8 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
-          <p className="text-gray-600">Access the admin panel</p>
+        <CardHeader>
+          <CardTitle className="text-center">Admin Login</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -89,14 +88,6 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
-          
-          <div className="mt-4 p-3 bg-blue-50 rounded-md">
-            <p className="text-sm text-blue-800">
-              <strong>Demo Credentials:</strong><br />
-              Username: admin<br />
-              Password: admin123
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>
@@ -104,3 +95,6 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
 };
 
 export default AdminLogin;
+
+
+
