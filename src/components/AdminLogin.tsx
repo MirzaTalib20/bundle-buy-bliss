@@ -24,6 +24,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
     setLoading(true);
 
     try {
+      console.log(API_BASE);
       const response = await fetch(`${API_BASE}/api/admin/login`, {
         method: 'POST',
         headers: {
