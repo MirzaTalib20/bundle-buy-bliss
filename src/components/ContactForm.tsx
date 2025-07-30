@@ -57,7 +57,7 @@ const ContactForm = () => {
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Email Us</h3>
-                <p className="text-muted-foreground text-sm">support@resellright.com</p>
+                <p className="text-muted-foreground text-sm">digital.districtofficial@gmail.com</p>
                 <p className="text-muted-foreground text-sm">Our team will get back to you within 24 hours.</p>
               </div>
             </div>
@@ -68,8 +68,8 @@ const ContactForm = () => {
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Call Us</h3>
-                <p className="text-muted-foreground text-sm">+1 (555) 123-4567</p>
-                <p className="text-muted-foreground text-sm">Monday to Friday, 9am to 5pm EST</p>
+                <p className="text-muted-foreground text-sm">+91 9167785948</p>
+                <p className="text-muted-foreground text-sm">Monday to Sunday, 9am to 5pm EST</p>
               </div>
             </div>
             
@@ -79,8 +79,8 @@ const ContactForm = () => {
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Visit Us</h3>
-                <p className="text-muted-foreground text-sm">123 Digital Avenue</p>
-                <p className="text-muted-foreground text-sm">Tech City, TC 12345</p>
+                <p className="text-muted-foreground text-sm">Suhana Compound</p>
+                <p className="text-muted-foreground text-sm">Thane City, TC 400612</p>
               </div>
             </div>
           </div>

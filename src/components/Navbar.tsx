@@ -2,7 +2,7 @@
 import { useCartStore } from '@/store/useCartStore';
 import { ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import logo from '@/assest/img/logo.png';
 const Navbar = () => {
   const { totalItems } = useCartStore();
   
@@ -11,9 +11,9 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center">
-            <span className="text-white font-bold">RR</span>
+            <span className="text-white font-bold"><img src={logo} /></span>
           </div>
-          <span className="text-xl font-semibold">ResellRight</span>
+          <span className="text-xl font-semibold">Digital Hub</span>
         </Link>
         
         <div className="flex items-center gap-6">

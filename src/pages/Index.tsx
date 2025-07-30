@@ -76,7 +76,8 @@ const productData: ProductType[] = [
       "Product page templates",
       "Upsell and cross-sell frameworks"
     ],
-    category: "Tools"
+    category: "Tools",
+    url:"https://turbopayz.com/view-product/XGtB7JE1ZrmqV6C71gMwi8v0"
   },
   {
     id: "design-assets-bundle",
@@ -194,25 +195,7 @@ const Index = () => {
   const { addItem } = useCartStore();
   const [isAdding, setIsAdding] = useState(false);
 
-  // const handleAddToCart = (product) => {
-  //   setIsAdding(true);
-    
-  //   setTimeout(() => {
-  //     addItem({
-  //       id: product.id,
-  //       name: product.name,
-  //       price: product.price,
-  //       quantity: 1
-  //     });
-      
-  //     setIsAdding(false);
-      
-  //     toast.success(`${product.name} added to cart!`, {
-  //       position: "bottom-right",
-  //       autoClose: 2000
-  //     });
-  //   }, 600);
-  // };
+  
 
   return (
     <div className="min-h-screen flex flex-col">
