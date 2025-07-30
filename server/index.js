@@ -7,7 +7,6 @@ const bcrypt = require('bcryptjs');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 // CORS configuration
 const corsOptions = {
@@ -21,7 +20,21 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Simple auth middleware - validates credentials on each request
+// Product Schema
+const productSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: String,
+  image: String,
+  category: String,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+const Product = mongoose.model('Product', productSchema);
+
+// Simple auth middleware
 const requireAuth = (req, res, next) => {
   const { username, password } = req.headers;
   
@@ -35,7 +48,15 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-// Admin login route - just validates credentials
+// Routes
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Bundle Buy Bliss API is running!',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || 'development'
+  });
+});
+
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -56,7 +77,6 @@ app.post('/api/admin/login', async (req, res) => {
   }
 });
 
-// Check auth status - validates credentials
 app.get('/api/admin/status', (req, res) => {
   const { username, password } = req.headers;
   
@@ -73,42 +93,10 @@ app.get('/api/admin/status', (req, res) => {
   }
 });
 
-// Product Schema
-const productSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  detailDescription: { type: String, required: true },
-  price: { type: Number, required: true },
-  popular: { type: Boolean, default: false },
-  image: { type: String, required: true },
-  rating: { type: Number, default: 4.5 },
-  features: [String],
-  category: { type: String, required: true },
-  url: { type: String, default: '' },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
-
-const Product = mongoose.model('Product', productSchema);
-
-// Routes
 app.get('/api/products', requireAuth, async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-app.get('/api/products/:id', async (req, res) => {
-  try {
-    const product = await Product.findOne({ id: req.params.id });
-    if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-    res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -155,19 +143,16 @@ app.delete('/api/products/:id', requireAuth, async (req, res) => {
   }
 });
 
-// Health check
-app.get('/', (req, res) => {
-  res.json({ message: 'Bundle Buy Bliss API is running!' });
-});
-
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to Mongo DB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
+} else {
+  console.warn('MONGODB_URI not provided');
+}
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
+// Export for Vercel
 module.exports = app;
+
 
