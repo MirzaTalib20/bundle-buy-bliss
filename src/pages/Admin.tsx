@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Trash2, Edit, Plus, LogOut } from 'lucide-react';
 
 const Admin = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -25,38 +25,9 @@ const Admin = () => {
 
   useEffect(() => {
     if (isAuthenticated && credentials) {
-      checkAuthStatus();
-    } else {
-      setLoading(false);
+      fetchProducts();
     }
   }, [isAuthenticated, credentials]);
-
-  const checkAuthStatus = async () => {
-    if (!credentials) return;
-    
-    try {
-      const response = await fetch(`${API_BASE}/api/admin/status`, {
-        headers: {
-          'username': credentials.username,
-          'password': credentials.password
-        }
-      });
-      const data = await response.json();
-      
-      if (data.authenticated) {
-        fetchProducts();
-      } else {
-        logout();
-        toast.error('Session expired. Please login again.');
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      toast.error('Authentication check failed');
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const fetchProducts = async () => {
     try {
@@ -96,11 +67,13 @@ const Admin = () => {
         toast.success('Product added successfully');
         setNewProduct({ id: '', name: '', price: '', description: '', image: '', category: '' });
         setShowAddForm(false);
-        fetchProducts();
+        fetchProducts(); // Refresh the products list
       } else {
-        toast.error('Failed to add product');
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to add product');
       }
     } catch (error) {
+      console.error('Add product error:', error);
       toast.error('Error adding product');
     }
   };
@@ -119,18 +92,20 @@ const Admin = () => {
 
       if (response.ok) {
         toast.success('Product deleted successfully');
-        fetchProducts();
+        fetchProducts(); // Refresh the products list
       } else {
-        toast.error('Failed to delete product');
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to delete product');
       }
     } catch (error) {
+      console.error('Delete product error:', error);
       toast.error('Error deleting product');
     }
   };
 
   const handleLogin = () => {
-    setLoading(true);
-    checkAuthStatus();
+    // This will trigger the useEffect to fetch products
+    console.log('Login successful, fetching products...');
   };
 
   const handleLogout = () => {
@@ -170,7 +145,7 @@ const Admin = () => {
         <div className="mb-6">
           <Button onClick={() => setShowAddForm(!showAddForm)}>
             <Plus className="h-4 w-4 mr-2" />
-            Add New Product
+            {showAddForm ? 'Cancel' : 'Add New Product'}
           </Button>
         </div>
 
@@ -267,8 +242,11 @@ const Admin = () => {
                     <div className="flex-1">
                       <h3 className="font-semibold">{product.name}</h3>
                       <p className="text-sm text-muted-foreground">{product.description}</p>
-                      <p className="text-sm font-medium">${product.price}</p>
+                      <p className="text-sm font-medium">₹{product.price}</p>
                       <p className="text-xs text-muted-foreground">ID: {product.id}</p>
+                      {product.category && (
+                        <p className="text-xs text-blue-600">Category: {product.category}</p>
+                      )}
                     </div>
                     <div className="flex gap-2">
                       <Button size="sm" variant="outline">
@@ -294,6 +272,8 @@ const Admin = () => {
 };
 
 export default Admin;
+
+
 
 
 

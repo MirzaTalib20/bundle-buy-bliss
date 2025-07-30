@@ -36,12 +36,13 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
 
       if (response.ok) {
         login(credentials.username, credentials.password);
-        onLogin();
         toast.success('Login successful!');
+        onLogin(); // This should trigger the parent component to re-render
       } else {
         toast.error(data.message || 'Login failed');
       }
     } catch (error) {
+      console.error('Login error:', error);
       toast.error('Network error. Please try again.');
     } finally {
       setLoading(false);
@@ -97,6 +98,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
 };
 
 export default AdminLogin;
+
 
 
 
