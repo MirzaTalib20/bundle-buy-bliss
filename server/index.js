@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 dotenv.config();
 
 const app = express();
-
+const PORT = process.env.PORT || 3001;
 // CORS configuration
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
@@ -19,7 +19,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-
+console.log(process.env.NODE_ENV);
 // Product Schema
 const productSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
@@ -60,7 +60,8 @@ app.get('/', (req, res) => {
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    
+    console.log(username);
+    console.log(password);
     const adminUsername = process.env.ADMIN_USERNAME || 'admin';
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
     
@@ -151,7 +152,14 @@ if (process.env.MONGODB_URI) {
 } else {
   console.warn('MONGODB_URI not provided');
 }
+app.get('/', (req, res) => {
+  res.send('Server is running on localhost');
+});
 
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running at http://localhost:${PORT}`);
+});
 // Export for Vercel
 module.exports = app;
 
