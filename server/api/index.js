@@ -68,11 +68,9 @@ app.get('/api', (req, res) => {
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
-    
-    const adminUsername = process.env.ADMIN_USERNAME || 'admin';
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-    
-    if (username === adminUsername && password === adminPassword) {
+    const adminUsername = process.env.ADMIN_USERNAME ;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (username === "digital.district@official@gmail.com" && password === "emmy@123HAB") {
       res.json({ 
         message: 'Login successful',
         user: { username }
@@ -182,6 +180,10 @@ const connectToDatabase = async () => {
 
 // Connect to database
 connectToDatabase();
+const PORT = process.env.PORT || 3000; // Default port if not specified in environment variables
+app.listen(PORT, () => {
+ console.log(`🚀 Server is running at http://localhost:${PORT}`);
+});
 
 // Export for Vercel
 module.exports = app;
