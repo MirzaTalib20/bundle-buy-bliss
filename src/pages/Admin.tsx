@@ -2,38 +2,55 @@ import { useState, useEffect } from 'react';
 import { API_BASE } from '@/config/api';
 import AdminLogin from '@/components/AdminLogin';
 import { toast } from 'react-toastify';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const Admin = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const { isAuthenticated, credentials, logout } = useAuthStore();
 
   useEffect(() => {
-    checkAuthStatus();
-  }, []);
+    if (isAuthenticated && credentials) {
+      checkAuthStatus();
+    } else {
+      setLoading(false);
+    }
+  }, [isAuthenticated, credentials]);
 
   const checkAuthStatus = async () => {
+    if (!credentials) return;
+    
     try {
       const response = await fetch(`${API_BASE}/api/admin/status`, {
-        credentials: 'include'
+        headers: {
+          'username': credentials.username,
+          'password': credentials.password
+        }
       });
       const data = await response.json();
       
       if (data.authenticated) {
-        setIsAuthenticated(true);
         fetchProducts();
+      } else {
+        logout();
       }
     } catch (error) {
       console.error('Auth check failed:', error);
+      logout();
     } finally {
       setLoading(false);
     }
   };
 
   const fetchProducts = async () => {
+    if (!credentials) return;
+    
     try {
       const response = await fetch(`${API_BASE}/api/products`, {
-        credentials: 'include'
+        headers: {
+          'username': credentials.username,
+          'password': credentials.password
+        }
       });
       const data = await response.json();
       setProducts(data);
@@ -42,34 +59,29 @@ const Admin = () => {
     }
   };
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    fetchProducts();
-  };
-
-  const handleLogout = async () => {
-    try {
-      await fetch(`${API_BASE}/api/admin/logout`, {
-        method: 'POST',
-        credentials: 'include'
-      });
-      setIsAuthenticated(false);
-      setProducts([]);
-      toast.success('Logged out successfully');
-    } catch (error) {
-      toast.error('Logout failed');
-    }
-  };
-
   const makeAuthenticatedRequest = async (url: string, options: RequestInit = {}) => {
+    if (!credentials) throw new Error('No credentials');
+    
     return fetch(url, {
       ...options,
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        'username': credentials.username,
+        'password': credentials.password,
         ...options.headers,
       },
     });
+  };
+
+  const handleLogin = () => {
+    setLoading(true);
+    checkAuthStatus();
+  };
+
+  const handleLogout = () => {
+    logout();
+    setProducts([]);
+    toast.success('Logged out successfully');
   };
 
   if (loading) {
@@ -80,7 +92,6 @@ const Admin = () => {
     return <AdminLogin onLogin={handleLogin} />;
   }
 
-  // Rest of your admin component...
   return (
     <div>
       <button onClick={handleLogout}>Logout</button>
@@ -90,4 +101,5 @@ const Admin = () => {
 };
 
 export default Admin;
+
 

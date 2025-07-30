@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, User } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { API_BASE } from '@/config/api';
+import { useAuthStore } from '@/store/useAuthStore';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -16,6 +17,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const { login } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,13 +29,13 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Important for sessions
         body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
 
       if (response.ok) {
+        login(credentials.username, credentials.password);
         onLogin();
         toast.success('Login successful!');
       } else {
@@ -95,6 +97,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
 };
 
 export default AdminLogin;
+
 
 
 
