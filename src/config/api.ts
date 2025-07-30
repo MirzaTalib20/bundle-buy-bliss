@@ -1,1 +1,1 @@
-export const API_BASE = 'https://digital-product-api.vercel.app';
+export const API_BASE = 'https://digital-product-api.vercel.app' ;
