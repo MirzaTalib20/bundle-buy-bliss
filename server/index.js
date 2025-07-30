@@ -2,24 +2,26 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const bcrypt = require('bcryptjs');
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-// CORS configuration
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://digital-hub-xi.vercel.app'] 
-    : ['http://localhost:8080', 'http://localhost:3000'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
 
-app.use(cors(corsOptions));
+// CORS configuration
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, username, password');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(express.json());
-console.log(process.env.NODE_ENV);
+
 // Product Schema
 const productSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
@@ -52,8 +54,7 @@ const requireAuth = (req, res, next) => {
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Bundle Buy Bliss API is running!',
-    timestamp: new Date().toISOString(),
-    env: process.env.NODE_ENV || 'development'
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -162,5 +163,8 @@ app.listen(PORT, () => {
 });
 // Export for Vercel
 module.exports = app;
+
+
+
 
 
