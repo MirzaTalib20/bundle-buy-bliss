@@ -41,8 +41,8 @@ const Shipping = () => {
               <li>
                 <strong>Support Contact:</strong> If you still haven't received your digital 
                 products after checking spam, please contact us at{' '}
-                <a href="mailto:support@resellright.com" className="text-primary hover:underline">
-                  support@resellright.com
+                <a href="mailto:digital.districtofficial@gmail.com" className="text-primary hover:underline">
+                  digital.districtofficial@gmail.com
                 </a>{' '}
                 with your order details.
               </li>
@@ -53,8 +53,8 @@ const Shipping = () => {
             For any questions regarding our digital delivery process or if you need assistance 
             with accessing your purchased products, please don't hesitate to reach out to our 
             support team at{' '}
-            <a href="mailto:support@resellright.com" className="text-primary hover:underline">
-              support@resellright.com
+            <a href="mailto:digital.districtofficial@gmail.com" className="text-primary hover:underline">
+              digital.districtofficial@gmail.com
             </a>. 
             We're here to help ensure you receive your digital products promptly.
           </p>

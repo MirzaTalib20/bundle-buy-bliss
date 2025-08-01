@@ -45,7 +45,7 @@ const requireAuth = (req, res, next) => {
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
   
-  if (username === "digital.district@official@gmail.com" && password === "emmy@123HAB") {
+  if (username === "digital.districtofficial@gmail.com" && password === "emmy@123HAB") {
     return next();
   } else {
     return res.status(401).json({ message: 'Authentication required' });
@@ -73,7 +73,7 @@ app.post('/api/admin/login', async (req, res) => {
     console.log(username, password);
     const adminUsername = process.env.ADMIN_USERNAME ;
     const adminPassword = process.env.ADMIN_PASSWORD;
-    if (username === "digital.district@official@gmail.com" && password === "emmy@123HAB") {
+    if (username === "digital.districtofficial@gmail.com" && password === "emmy@123HAB") {
       res.json({ 
         message: 'Login successful',
         user: { username }
