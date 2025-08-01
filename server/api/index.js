@@ -159,6 +159,13 @@ app.delete('/api/products/:id', async (req, res) => {
 
 app.get('/api/products/public', async (req, res) => {
   try {
+    // Ensure connection before querying
+    await connectToDatabase();
+    
+    if (!isConnected) {
+      return res.status(503).json({ message: 'Database connection unavailable' });
+    }
+    
     const products = await Product.find();
     res.json(products);
   } catch (error) {
@@ -223,6 +230,8 @@ const connectToDatabase = async () => {
       await mongoose.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        bufferCommands: false, // Disable buffering
+        serverSelectionTimeoutMS: 5000,
       });
       isConnected = true;
       console.log('Connected to MongoDB');
