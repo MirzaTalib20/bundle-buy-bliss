@@ -6,7 +6,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Trash2, Edit, Plus, LogOut } from 'lucide-react';
+import { Trash2, Edit, Plus, LogOut, ShoppingCart } from 'lucide-react';
 
 const Admin = () => {
   const [loading, setLoading] = useState(false);
@@ -22,6 +22,17 @@ const Admin = () => {
     category: ''
   });
   const { isAuthenticated, credentials, logout } = useAuthStore();
+
+  // Category options
+  const categoryOptions = [
+    "Digital Assets",
+    "Web Design", 
+    "Design Assets",
+    "Courses",
+    "YouTube",
+    "Print on Demand",
+    "Templates"
+  ];
 
   // Auto scroll to top when component mounts
   useEffect(() => {
@@ -223,6 +234,7 @@ const Admin = () => {
                     <label className="block text-sm font-medium mb-1">Price</label>
                     <Input
                       type="number"
+                      inputMode="decimal"
                       step="0.01"
                       value={newProduct.price}
                       onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
@@ -232,11 +244,19 @@ const Admin = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Category</label>
-                    <Input
+                    <select
                       value={newProduct.category}
                       onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
-                      placeholder="Category"
-                    />
+                      className="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      required
+                    >
+                      <option value="">Select Category</option>
+                      {categoryOptions.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div>
@@ -302,6 +322,7 @@ const Admin = () => {
                       <label className="block text-sm font-medium mb-1">Price</label>
                       <Input
                         type="number"
+                        inputMode="decimal"
                         step="0.01"
                         value={editingProduct.price}
                         onChange={(e) => setEditingProduct({...editingProduct, price: e.target.value})}
@@ -311,11 +332,19 @@ const Admin = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1">Category</label>
-                      <Input
+                      <select
                         value={editingProduct.category || ''}
                         onChange={(e) => setEditingProduct({...editingProduct, category: e.target.value})}
-                        placeholder="Category"
-                      />
+                        className="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                        required
+                      >
+                        <option value="">Select Category</option>
+                        {categoryOptions.map((category) => (
+                          <option key={category} value={category}>
+                            {category}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
                   <div>
@@ -362,15 +391,34 @@ const Admin = () => {
               <div className="space-y-4">
                 {products.map((product) => (
                   <div key={product.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex-1">
-                      <h3 className="font-semibold">{product.name}</h3>
-                      <p className="text-sm text-muted-foreground">{product.description}</p>
-                      <p className="text-sm font-medium">₹{product.price}</p>
-                      <p className="text-xs text-muted-foreground">ID: {product.id}</p>
-                      {product.category && (
-                        <p className="text-xs text-blue-600">Category: {product.category}</p>
-                      )}
+                    <div className="flex items-center gap-4 flex-1">
+                      {/* Product Image */}
+                      <div className="w-16 h-16 bg-muted rounded-md flex items-center justify-center overflow-hidden flex-shrink-0">
+                        {product.image ? (
+                          <img 
+                            src={product.image} 
+                            alt={product.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+                            <ShoppingCart className="h-6 w-6 text-primary/40" />
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Product Details */}
+                      <div className="flex-1">
+                        <h3 className="font-semibold">{product.name}</h3>
+                        <p className="text-sm text-muted-foreground">{product.description}</p>
+                        <p className="text-sm font-medium">₹{product.price}</p>
+                        <p className="text-xs text-muted-foreground">ID: {product.id}</p>
+                        {product.category && (
+                          <p className="text-xs text-blue-600">Category: {product.category}</p>
+                        )}
+                      </div>
                     </div>
+                    
                     <div className="flex gap-2">
                       <Button 
                         size="sm" 
@@ -399,6 +447,12 @@ const Admin = () => {
 };
 
 export default Admin;
+
+
+
+
+
+
 
 
 

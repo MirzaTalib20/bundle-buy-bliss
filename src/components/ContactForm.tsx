@@ -146,12 +146,23 @@ const ContactForm = () => {
                       <label htmlFor="contact-number" className="block text-sm font-medium mb-1">Number</label>
                       <Input
                         id="contact-number"
-                        type="number"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10}"
+                        maxLength={10}
                         value={formState.number}
-                        onChange={(e) => setFormState({ ...formState, number: e.target.value })}
-                        placeholder="Your Number"
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                          if (value.length <= 10) {
+                            setFormState({ ...formState, number: value });
+                          }
+                        }}
+                        placeholder="9876543210"
                         required
                       />
+                      {formState.number && formState.number.length !== 10 && (
+                        <p className="text-sm text-red-500 mt-1">Number must be exactly 10 digits</p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="contact-message" className="block text-sm font-medium mb-1">Message</label>

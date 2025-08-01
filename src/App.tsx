@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Products from "./pages/Products";
 import Admin from "./pages/Admin";
+import CancellationRefund from '@/pages/CancellationRefund';
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/products" element={<Products />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/cancellation-refund" element={<CancellationRefund />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

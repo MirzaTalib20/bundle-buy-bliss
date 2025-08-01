@@ -21,6 +21,7 @@ import img6 from "@/assest/img/canva.png";
 import homeImg from "@/assest/img/Home.png";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
+import { API_BASE } from '@/config/api';
 interface ProductType {
   id: string;
   name: string;
@@ -207,12 +208,46 @@ const whoIsForData = [
 const Index = () => {
   const { addItem } = useCartStore();
   const [isAdding, setIsAdding] = useState(false);
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   // Auto scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_BASE}/api/products/public`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        // Transform database products to match ProductType interface
+        const transformedProducts = data.map(product => ({
+          ...product,
+          rating: product.rating || 4.5,
+          popular: product.popular || false,
+          features: product.features || [],
+          detailDescription: product.detailDescription || product.description,
+          url: product.url || ""
+        }));
+        setProducts(transformedProducts);
+      } else {
+        console.error('Failed to fetch products from database');
+        // Fallback to static data if API fails
+        setProducts(productData);
+      }
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+      // Fallback to static data if API fails
+      setProducts(productData);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddToCart = () => {
     setIsAdding(true);
@@ -344,12 +379,24 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {productData.slice(0, 8).map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={{...product, url: product.url ?? ''}} 
-              />
-            ))}
+            {loading ? (
+              // Loading skeleton
+              Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="glass-card p-4 rounded-xl animate-pulse">
+                  <div className="h-48 bg-muted rounded-lg mb-4"></div>
+                  <div className="h-4 bg-muted rounded mb-2"></div>
+                  <div className="h-3 bg-muted rounded mb-4"></div>
+                  <div className="h-8 bg-muted rounded"></div>
+                </div>
+              ))
+            ) : (
+              products.slice(0, 8).map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={{...product, url: product.url ?? ''}} 
+                />
+              ))
+            )}
           </div>
 
           <div className="text-center mt-8">
