@@ -48,7 +48,7 @@ const App = () => (
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/shipping" element={<Shipping />} />
-            <Route path="/refund" element={<RefundPolicy />} />
+            <Route path="/refund" element={<CancellationRefund />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/products" element={<Products />} />
