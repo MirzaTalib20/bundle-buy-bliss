@@ -164,6 +164,49 @@ app.get('/api/products/public', async (req, res) => {
   }
 });
 
+// Contact form submission endpoint
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, number, message } = req.body;
+    
+    // Basic validation
+    if (!name || !email || !message) {
+      return res.status(400).json({ message: 'Name, email, and message are required' });
+    }
+    
+    // Send to Google Apps Script
+    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbzufSsAi_AptsV4eb5LHvV8ie4_nbUrzhwh-cOI2x2-k5GDVHxKb07mcmUrS_3AwFtk1w/exec'; // Replace with your actual script URL
+    
+    const googleResponse = await fetch(googleScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        number: number || '',
+        message
+      })
+    });
+    
+    if (googleResponse.ok) {
+      console.log('Contact form sent to Google Sheets successfully');
+      res.json({ 
+        message: 'Contact form submitted successfully',
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      console.error('Google Apps Script error:', await googleResponse.text());
+      res.status(500).json({ message: 'Failed to submit form' });
+    }
+    
+  } catch (error) {
+    console.error('Contact form error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // MongoDB connection with better error handling
 let isConnected = false;
 

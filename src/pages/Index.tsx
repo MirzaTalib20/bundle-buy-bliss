@@ -4,7 +4,6 @@ import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/CountdownTimer';
 import { Check, Box, Users, ArrowRight, Brain, Target, Laptop, Star } from 'lucide-react';
-import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import NotificationSystem from '@/components/NotificationSystem';
 import ProductCard from '@/components/ProductCard';
@@ -12,7 +11,6 @@ import ReviewSection from '@/components/ReviewSection';
 import VideoSection from '@/components/VideoSection';
 import ContactForm from '@/components/ContactForm';
 import SalesCounter from '@/components/SalesCounter';
-import { ProductType } from './ProductDetail';
 import img from "@/assest/img/pan.jpg";
 import img1 from "@/assest/img/themes.jpg";
 import img2 from "@/assest/img/adboe.jpg";
@@ -21,6 +19,21 @@ import img4 from "@/assest/img/youtube.jpg";
 import img5 from "@/assest/img/premiumtshirt.png";
 import img6 from "@/assest/img/canva.png";
 import homeImg from "@/assest/img/Home.png";
+import { useToast } from "@/hooks/use-toast";
+import { Link } from 'react-router-dom';
+interface ProductType {
+  id: string;
+  name: string;
+  description: string;
+  detailDescription?: string;
+  price: number;
+  popular?: boolean;
+  image: string;
+  rating?: number;
+  features?: string[];
+  category: string;
+  url?: string;
+}
 
 const BUNDLE_PRICE = 499;
 
@@ -194,8 +207,30 @@ const whoIsForData = [
 const Index = () => {
   const { addItem } = useCartStore();
   const [isAdding, setIsAdding] = useState(false);
+  const { toast } = useToast();
 
-  
+  const handleAddToCart = () => {
+    setIsAdding(true);
+    
+    setTimeout(() => {
+      productData.forEach(product => {
+        addItem({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1
+        });
+      });
+      
+      setIsAdding(false);
+      
+      toast({
+        title: "Success!",
+        description: `Bundle added to cart! ${productData.length} items added.`,
+      });
+    }, 600);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -237,6 +272,7 @@ const Index = () => {
                   size="lg"
                   className="text-lg btn-gradient"
                   disabled={isAdding}
+                  onClick={handleAddToCart}
                 >
                   {isAdding ? "Adding..." : "Add to Cart"}
                   {!isAdding && <ArrowRight className="ml-2 h-5 w-5" />}
@@ -299,6 +335,15 @@ const Index = () => {
                 product={{...product, url: product.url ?? ''}} 
               />
             ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link to="/products">
+              <Button size="lg" variant="outline" className="btn-gradient">
+                View More Products
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

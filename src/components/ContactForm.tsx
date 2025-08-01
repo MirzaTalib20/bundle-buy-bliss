@@ -3,41 +3,62 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { API_BASE } from '@/config/api';
 
 const ContactForm = () => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
+    number: '',
     message: '',
     isSubmitting: false,
     isSubmitted: false
   });
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!formState.name || !formState.email || !formState.message) {
-      return;
-    }
-    
+
     setFormState({ ...formState, isSubmitting: true });
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setFormState({
-        name: '',
-        email: '',
-        message: '',
-        isSubmitting: false,
-        isSubmitted: true
+
+    try {
+      const response = await fetch(`${API_BASE}/api/contact`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          number: formState.number,
+          message: formState.message,
+        }),
       });
-      
-      // Reset success message after 3 seconds
-      setTimeout(() => {
-        setFormState(prev => ({ ...prev, isSubmitted: false }));
-      }, 3000);
-    }, 1500);
+
+      if (response.ok) {
+        setFormState({
+          name: '',
+          email: '',
+          number: '',
+          message: '',
+          isSubmitting: false,
+          isSubmitted: true,
+        });
+
+        setTimeout(() => {
+          setFormState((prev) => ({ ...prev, isSubmitted: false }));
+        }, 3000);
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || "Submission failed");
+        setFormState((prev) => ({ ...prev, isSubmitting: false }));
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error submitting the form");
+      setFormState((prev) => ({ ...prev, isSubmitting: false }));
+    }
   };
+  
   
   return (
     <section className="section-padding bg-muted">
@@ -121,7 +142,17 @@ const ContactForm = () => {
                         required
                       />
                     </div>
-                    
+                     <div>
+                      <label htmlFor="contact-number" className="block text-sm font-medium mb-1">Number</label>
+                      <Input
+                        id="contact-number"
+                        type="number"
+                        value={formState.number}
+                        onChange={(e) => setFormState({ ...formState, number: e.target.value })}
+                        placeholder="Your Number"
+                        required
+                      />
+                    </div>
                     <div>
                       <label htmlFor="contact-message" className="block text-sm font-medium mb-1">Message</label>
                       <textarea
