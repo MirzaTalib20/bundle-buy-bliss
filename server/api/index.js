@@ -103,7 +103,7 @@ app.get('/api/admin/status', (req, res) => {
   }
 });
 
-app.get('/api/products', requireAuth, async (req, res) => {
+app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
@@ -113,7 +113,7 @@ app.get('/api/products', requireAuth, async (req, res) => {
   }
 });
 
-app.post('/api/products', requireAuth, async (req, res) => {
+app.post('/api/products', async (req, res) => {
   try {
     const product = new Product({
       ...req.body,
@@ -127,7 +127,7 @@ app.post('/api/products', requireAuth, async (req, res) => {
   }
 });
 
-app.put('/api/products/:id', requireAuth, async (req, res) => {
+app.put('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findOneAndUpdate(
       { id: req.params.id },
@@ -144,7 +144,7 @@ app.put('/api/products/:id', requireAuth, async (req, res) => {
   }
 });
 
-app.delete('/api/products/:id', requireAuth, async (req, res) => {
+app.delete('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findOneAndDelete({ id: req.params.id });
     if (!product) {
