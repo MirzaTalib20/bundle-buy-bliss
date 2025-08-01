@@ -12,7 +12,7 @@ const Footer = () => {
               <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center">
                 <img src={logo} alt="Digital Hub Logo" className="h-8 w-8" />
               </div>
-              <span className="text-2xl font-bold">Digital Hub</span>
+              <span className="text-2xl font-bold">Digital Hub Products</span>
             </Link>
             <p className="text-gray-300 mb-4 max-w-md">
               Your one-stop destination for premium digital products, courses, and assets. 
@@ -115,3 +115,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
