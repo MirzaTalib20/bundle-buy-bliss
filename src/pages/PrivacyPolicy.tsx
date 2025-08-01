@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const PrivacyPolicy = () => {
+  // Auto scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Helmet>

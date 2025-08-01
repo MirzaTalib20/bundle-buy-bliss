@@ -3,7 +3,7 @@ import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ShoppingCart, Trash, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Cart = () => {
@@ -15,6 +15,11 @@ const Cart = () => {
     isSubmitted: false,
     error: '',
   });
+
+  // Auto scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleQuantityChange = (itemId: string, value: string) => {
     const quantity = parseInt(value);
@@ -81,6 +86,8 @@ const Cart = () => {
           error: '',
         });
         clearCart();
+        // Scroll to top after successful payment
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       prefill: {
         name: formState.name,
@@ -200,6 +207,17 @@ const Cart = () => {
                 Continue Shopping
               </Button>
             </Link>
+            
+            {totalItems > 5 && (
+              <Button 
+                variant="destructive" 
+                onClick={clearCart}
+                className="flex items-center gap-2"
+              >
+                <Trash className="h-4 w-4" />
+                Clear All
+              </Button>
+            )}
             
             <div className="text-right">
               <p className="text-lg">

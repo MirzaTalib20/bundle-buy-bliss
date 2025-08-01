@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/CountdownTimer';
@@ -209,6 +209,11 @@ const Index = () => {
   const [isAdding, setIsAdding] = useState(false);
   const { toast } = useToast();
 
+  // Auto scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleAddToCart = () => {
     setIsAdding(true);
     
@@ -230,6 +235,16 @@ const Index = () => {
         description: `Bundle added to cart! ${productData.length} items added.`,
       });
     }, 600);
+  };
+
+  const handleGetStarted = () => {
+    const featuredSection = document.getElementById('featured-products');
+    if (featuredSection) {
+      featuredSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   return (
@@ -319,7 +334,7 @@ const Index = () => {
       </section>
       
       {/* Products Section */}
-      <section className="section-padding bg-white">
+      <section id="featured-products" className="section-padding bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured <span className="highlight">Products</span></h2>
@@ -404,8 +419,9 @@ const Index = () => {
             <Button
               size="lg"
               className="text-lg btn-gradient"
+              onClick={handleGetStarted}
             >
-              Get Started Now - Just ${BUNDLE_PRICE}
+              Get Started Now - Just ₹{BUNDLE_PRICE}
             </Button>
             
             <div className="mt-6">

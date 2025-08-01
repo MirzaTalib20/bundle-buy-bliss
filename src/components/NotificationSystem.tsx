@@ -64,7 +64,7 @@ const NotificationSystem = () => {
     </div>
   );
 
- useEffect(() => {
+useEffect(() => {
   let timeoutId: NodeJS.Timeout;
 
   const showRandomNotification = () => {
@@ -77,38 +77,38 @@ const NotificationSystem = () => {
 
     const notification = notifications[randomIndex];
 
-    toast.dismiss(); // 🔁 Remove any existing toast
+    toast.dismiss(); // Remove existing toast before showing new
 
-toast(
-  <PurchaseToast
-    name={notification.name}
-    location={notification.location}
-    product={notification.product}
-  />,
-  {
-    position: "bottom-left",
-    autoClose: 4000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    className: "glass-card",
-  }
-);
+    toast(
+      <PurchaseToast
+        name={notification.name}
+        location={notification.location}
+        product={notification.product}
+      />,
+      {
+        position: "bottom-left",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: "glass-card",
+      }
+    );
 
+    // ⏱ Slow down: 2 to 4 minutes (120000ms to 240000ms)
+    const nextDelay = Math.random() * 120000 + 120000;
 
-    // Schedule next notification with new randomized delay (10s–20s)
-    const nextDelay = Math.random() * 10000 + 10000;
     timeoutId = setTimeout(showRandomNotification, nextDelay);
   };
 
-  // First notification delay
-  timeoutId = setTimeout(showRandomNotification, 10000);
+  // Start first toast after 15 seconds (adjust as needed)
+  timeoutId = setTimeout(showRandomNotification, 15000);
 
   return () => {
     clearTimeout(timeoutId);
   };
-}, [lastNotificationIndex]);
+}, [notifications]); // ✅ Watch `notifications`, not `lastNotificationIndex`
 
   return (
     <ToastContainer

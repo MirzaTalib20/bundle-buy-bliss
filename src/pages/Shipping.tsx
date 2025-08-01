@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const Shipping = () => {
+  // Auto scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -59,6 +65,7 @@ const Shipping = () => {
 };
 
 export default Shipping;
+
 
 
 

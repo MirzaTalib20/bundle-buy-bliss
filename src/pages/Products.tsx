@@ -34,6 +34,9 @@ const Products = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
+    // Auto scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
     fetchProducts();
     // Set search term from URL parameter
     const searchQuery = searchParams.get('search');
@@ -234,6 +237,7 @@ const Products = () => {
 };
 
 export default Products;
+
 
 
 

@@ -23,6 +23,11 @@ const Admin = () => {
   });
   const { isAuthenticated, credentials, logout } = useAuthStore();
 
+  // Auto scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (isAuthenticated && credentials) {
       fetchProducts();
@@ -394,6 +399,7 @@ const Admin = () => {
 };
 
 export default Admin;
+
 
 
 
