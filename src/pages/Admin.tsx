@@ -67,7 +67,7 @@ const Admin = () => {
         toast.success('Product added successfully');
         setNewProduct({ id: '', name: '', price: '', description: '', image: '', category: '' });
         setShowAddForm(false);
-        fetchProducts(); // Refresh the products list
+        fetchProducts();
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || 'Failed to add product');
@@ -75,6 +75,45 @@ const Admin = () => {
     } catch (error) {
       console.error('Add product error:', error);
       toast.error('Error adding product');
+    }
+  };
+
+  const handleEditProduct = (product) => {
+    setEditingProduct({
+      ...product,
+      price: product.price.toString()
+    });
+  };
+
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    if (!credentials || !editingProduct) return;
+
+    try {
+      const response = await fetch(`${API_BASE}/api/products/${editingProduct.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'username': credentials.username,
+          'password': credentials.password
+        },
+        body: JSON.stringify({
+          ...editingProduct,
+          price: parseFloat(editingProduct.price)
+        })
+      });
+
+      if (response.ok) {
+        toast.success('Product updated successfully');
+        setEditingProduct(null);
+        fetchProducts();
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to update product');
+      }
+    } catch (error) {
+      console.error('Update product error:', error);
+      toast.error('Error updating product');
     }
   };
 
@@ -92,7 +131,7 @@ const Admin = () => {
 
       if (response.ok) {
         toast.success('Product deleted successfully');
-        fetchProducts(); // Refresh the products list
+        fetchProducts();
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || 'Failed to delete product');
@@ -104,7 +143,6 @@ const Admin = () => {
   };
 
   const handleLogin = () => {
-    // This will trigger the useEffect to fetch products
     console.log('Login successful, fetching products...');
   };
 
@@ -225,6 +263,86 @@ const Admin = () => {
           </Card>
         )}
 
+        {/* Edit Product Modal */}
+        {editingProduct && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+              <CardHeader>
+                <CardTitle>Edit Product</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleUpdateProduct} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Product ID</label>
+                      <Input
+                        value={editingProduct.id}
+                        onChange={(e) => setEditingProduct({...editingProduct, id: e.target.value})}
+                        placeholder="unique-product-id"
+                        disabled
+                        className="bg-gray-100"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Product ID cannot be changed</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Name</label>
+                      <Input
+                        value={editingProduct.name}
+                        onChange={(e) => setEditingProduct({...editingProduct, name: e.target.value})}
+                        placeholder="Product Name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Price</label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={editingProduct.price}
+                        onChange={(e) => setEditingProduct({...editingProduct, price: e.target.value})}
+                        placeholder="29.99"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Category</label>
+                      <Input
+                        value={editingProduct.category || ''}
+                        onChange={(e) => setEditingProduct({...editingProduct, category: e.target.value})}
+                        placeholder="Category"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Description</label>
+                    <textarea
+                      className="w-full p-2 border rounded-md"
+                      rows={3}
+                      value={editingProduct.description || ''}
+                      onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})}
+                      placeholder="Product description..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Image URL</label>
+                    <Input
+                      value={editingProduct.image || ''}
+                      onChange={(e) => setEditingProduct({...editingProduct, image: e.target.value})}
+                      placeholder="https://example.com/image.jpg"
+                    />
+                  </div>
+                  <div className="flex gap-2 justify-end">
+                    <Button type="button" variant="outline" onClick={() => setEditingProduct(null)}>
+                      Cancel
+                    </Button>
+                    <Button type="submit">Update Product</Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Products List */}
         <Card>
           <CardHeader>
@@ -249,7 +367,11 @@ const Admin = () => {
                       )}
                     </div>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleEditProduct(product)}
+                      >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
@@ -272,6 +394,7 @@ const Admin = () => {
 };
 
 export default Admin;
+
 
 
 
