@@ -165,7 +165,7 @@ const Cart = () => {
           <div className="glass-card rounded-lg p-4 md:p-6 mb-6">
             {items.map((item) => (
               <div key={item.id} className="flex flex-col sm:flex-row gap-4 py-4 border-b border-border last:border-0">
-                <div className="h-16 w-16 sm:h-20 sm:w-20 bg-muted rounded-md flex items-center justify-center overflow-hidden flex-shrink-0 mx-auto sm:mx-0">
+                <div className="h-20 w-20 sm:h-20 sm:w-20 bg-muted rounded-md flex items-center justify-center overflow-hidden flex-shrink-0 mx-auto sm:mx-0">
                   {item.image ? (
                     <img 
                       src={item.image} 
@@ -173,7 +173,7 @@ const Cart = () => {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <ShoppingCart className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground" />
+                    <ShoppingCart className="h-10 w-10 sm:h-10 sm:w-10 text-muted-foreground" />
                   )}
                 </div>
 
