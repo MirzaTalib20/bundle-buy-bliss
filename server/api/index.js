@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-// Product Schema
+// Product Schema - make sure it matches your MongoDB Atlas collection
 const productSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
@@ -32,18 +32,20 @@ const productSchema = new mongoose.Schema({
   category: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
+}, {
+  collection: 'products' // Explicitly specify collection name
 });
 
 const Product = mongoose.model('Product', productSchema);
 
 // Simple auth middleware
 const requireAuth = (req, res, next) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
   
-  if (username === adminUsername && password === adminPassword) {
+  if (username === "digital.district@official@gmail.com" && password === "emmy@123HAB") {
     return next();
   } else {
     return res.status(401).json({ message: 'Authentication required' });
@@ -68,6 +70,7 @@ app.get('/api', (req, res) => {
 app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log(username, password);
     const adminUsername = process.env.ADMIN_USERNAME ;
     const adminPassword = process.env.ADMIN_PASSWORD;
     if (username === "digital.district@official@gmail.com" && password === "emmy@123HAB") {
