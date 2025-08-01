@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { ShoppingCart, Trash, AlertCircle, CheckCircle, ArrowLeft, Plus, Minus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { API_BASE } from '@/config/api';
 
 const Cart = () => {
   const { items, totalItems, totalPrice, removeItem, updateQuantity, clearCart } = useCartStore();
@@ -83,21 +84,51 @@ const Cart = () => {
       key: 'rzp_test_LL7ncusi9JDDJm', // DO NOT USE SECRET KEY HERE
       amount: data.order.amount,
       currency: data.order.currency,
-      name: 'Your Store Name',
+      name: 'Digital Hub',
       description: 'Thank you for shopping with us!',
       image: '/your-logo.png',
       order_id: data.order.id,
-      handler: function (response: any) {
-        setFormState({
-          name: '',
-          email: '',
-          isSubmitting: false,
-          isSubmitted: true,
-          error: '',
-        });
-        clearCart();
-        // Scroll to top after successful payment
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      handler: async function (response: any) {
+        try {
+          // Send order completion request
+          const completeOrderResponse = await fetch(`${API_BASE}/api/complete-order`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              customerName: formState.name,
+              customerEmail: formState.email,
+              orderItems: items,
+              totalAmount: totalPrice,
+              paymentId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id
+            })
+          });
+
+          if (completeOrderResponse.ok) {
+            setFormState({
+              name: '',
+              email: '',
+              isSubmitting: false,
+              isSubmitted: true,
+              error: '',
+            });
+            clearCart();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            throw new Error('Failed to complete order');
+          }
+        } catch (error) {
+          console.error('Order completion error:', error);
+          // Still show success to user, but log the error
+          setFormState({
+            name: '',
+            email: '',
+            isSubmitting: false,
+            isSubmitted: true,
+            error: '',
+          });
+          clearCart();
+        }
       },
       prefill: {
         name: formState.name,
