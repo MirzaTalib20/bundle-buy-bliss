@@ -2,7 +2,7 @@
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ShoppingCart, Trash, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Trash, AlertCircle, CheckCircle, ArrowLeft, Plus, Minus } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -25,6 +25,16 @@ const Cart = () => {
     const quantity = parseInt(value);
     if (quantity > 0) {
       updateQuantity(itemId, quantity);
+    }
+  };
+
+  const handleQuantityIncrease = (itemId: string, currentQuantity: number) => {
+    updateQuantity(itemId, currentQuantity + 1);
+  };
+
+  const handleQuantityDecrease = (itemId: string, currentQuantity: number) => {
+    if (currentQuantity > 1) {
+      updateQuantity(itemId, currentQuantity - 1);
     }
   };
 
@@ -147,41 +157,57 @@ const Cart = () => {
   }
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <h1 className="text-3xl font-bold mb-8">Your Cart</h1>
+    <div className="container mx-auto py-6 md:py-12 px-4">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Your Cart</h1>
       
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         <div className="flex-1">
-          <div className="glass-card rounded-lg p-6 mb-6">
+          <div className="glass-card rounded-lg p-4 md:p-6 mb-6">
             {items.map((item) => (
               <div key={item.id} className="flex flex-col sm:flex-row gap-4 py-4 border-b border-border last:border-0">
-                <div className="h-20 w-20 bg-muted rounded-md flex items-center justify-center overflow-hidden">
-  {item.image ? (
-    <img 
-      src={item.image} 
-      alt={item.name} 
-      className="h-full w-full object-cover"
-    />
-  ) : (
-    <ShoppingCart className="h-10 w-10 text-muted-foreground" />
-  )}
-</div>
+                <div className="h-16 w-16 sm:h-20 sm:w-20 bg-muted rounded-md flex items-center justify-center overflow-hidden flex-shrink-0 mx-auto sm:mx-0">
+                  {item.image ? (
+                    <img 
+                      src={item.image} 
+                      alt={item.name} 
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <ShoppingCart className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground" />
+                  )}
+                </div>
 
-                
-                <div className="flex-1 flex flex-col justify-center">
-                  <h3 className="font-medium">{item.name}</h3>
-                  <p className="text-muted-foreground text-sm">${item.price.toFixed(2)} per item</p>
+                <div className="flex-1 flex flex-col justify-center text-center sm:text-left">
+                  <h3 className="font-medium text-sm sm:text-base">{item.name}</h3>
+                  <p className="text-muted-foreground text-xs sm:text-sm">₹{item.price.toFixed(2)} per item</p>
                 </div>
                 
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center">
+                  <div className="flex items-center border rounded-md">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 hover:bg-muted"
+                      onClick={() => handleQuantityDecrease(item.id, item.quantity)}
+                      disabled={item.quantity <= 1}
+                    >
+                      <Minus className="h-3 w-3" />
+                    </Button>
                     <Input 
                       type="number" 
                       min="1"
-                      className="w-16 text-center"
+                      className="w-16 text-center border-0 focus-visible:ring-0 h-8"
                       value={item.quantity}
                       onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                     />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 hover:bg-muted"
+                      onClick={() => handleQuantityIncrease(item.id, item.quantity)}
+                    >
+                      <Plus className="h-3 w-3" />
+                    </Button>
                   </div>
                   
                   <div className="min-w-20 text-right">
@@ -200,37 +226,39 @@ const Cart = () => {
             ))}
           </div>
           
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <Link to="/">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 w-full sm:w-auto">
                 <ArrowLeft className="h-4 w-4" />
                 Continue Shopping
               </Button>
             </Link>
             
-            {totalItems > 5 && (
-              <Button 
-                variant="destructive" 
-                onClick={clearCart}
-                className="flex items-center gap-2"
-              >
-                <Trash className="h-4 w-4" />
-                Clear All
-              </Button>
-            )}
-            
-            <div className="text-right">
-              <p className="text-lg">
-                Total: <span className="font-bold">₹{totalPrice.toFixed(2)}</span>
-              </p>
-              <p className="text-sm text-muted-foreground">{totalItems} item{totalItems !== 1 ? 's' : ''}</p>
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {totalItems > 5 && (
+                <Button 
+                  variant="destructive" 
+                  onClick={clearCart}
+                  className="flex items-center gap-2 w-full sm:w-auto"
+                >
+                  <Trash className="h-4 w-4" />
+                  Clear All
+                </Button>
+              )}
+              
+              <div className="text-center sm:text-right">
+                <p className="text-lg">
+                  Total: <span className="font-bold">₹{totalPrice.toFixed(2)}</span>
+                </p>
+                <p className="text-sm text-muted-foreground">{totalItems} item{totalItems !== 1 ? 's' : ''}</p>
+              </div>
             </div>
           </div>
         </div>
         
         <div className="lg:w-1/3">
-          <div className="glass-card rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-4">Checkout</h2>
+          <div className="glass-card rounded-lg p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-bold mb-4">Checkout</h2>
             
             {formState.error && (
               <div className="bg-destructive/10 border border-destructive/20 rounded-md p-3 mb-4 flex items-start gap-3">
@@ -279,9 +307,9 @@ const Cart = () => {
                 </div>
                 
                 <div className="flex justify-center gap-2 pt-2">
-                  <img src="https://cdn-icons-png.flaticon.com/512/196/196566.png" alt="Visa" className="h-8" />
-                  <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="UPI" className="h-8" />
-                  <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png" alt="Razorpay" className="h-8" />
+                  <img src="https://cdn-icons-png.flaticon.com/512/196/196566.png" alt="Visa" className="h-6 sm:h-8" />
+                  <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="UPI" className="h-6 sm:h-8" />
+                  <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png" alt="Razorpay" className="h-6 sm:h-8" />
                 </div>
                 <p className="text-center text-xs text-muted-foreground">All payments are secure and encrypted</p>
               </div>
