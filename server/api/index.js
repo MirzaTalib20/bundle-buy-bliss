@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
-const fetch = require('node-fetch'); // Ensure this is installed in your project
 
 dotenv.config();
 
