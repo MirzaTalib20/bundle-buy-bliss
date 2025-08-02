@@ -7,6 +7,15 @@ import { motion } from 'framer-motion';
 import ProductCard from '@/components/ProductCard';
 import { API_BASE } from '@/config/api';
 import { useSearchParams } from 'react-router-dom';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface ProductType {
   id: string;
@@ -23,6 +32,7 @@ interface ProductType {
 }
 
 const categories = ["All", "Digital Assets", "Web Design", "Design Assets", "Courses", "YouTube", "Print on Demand", "Templates"];
+const PRODUCTS_PER_PAGE = 12;
 
 const Products = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
@@ -31,19 +41,22 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("popular");
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Auto scroll to top when component mounts
     window.scrollTo(0, 0);
-    
     fetchProducts();
-    // Set search term from URL parameter
     const searchQuery = searchParams.get('search');
     if (searchQuery) {
       setSearchTerm(searchQuery);
     }
   }, [searchParams]);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCategory, sortBy]);
 
   const fetchProducts = async () => {
     try {
@@ -52,7 +65,6 @@ const Products = () => {
       
       if (response.ok) {
         const data = await response.json();
-        // Transform database products to match ProductType interface
         const transformedProducts = data.map(product => ({
           ...product,
           rating: product.rating || 4.5,
@@ -94,6 +106,122 @@ const Products = () => {
           return (b.popular ? 1 : 0) - (a.popular ? 1 : 0);
       }
     });
+
+  // Pagination calculations
+  const totalProducts = filteredProducts.length;
+  const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+  const endIndex = startIndex + PRODUCTS_PER_PAGE;
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total pages is small
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              isActive={currentPage === i}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(i);
+              }}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    } else {
+      // Show ellipsis for large number of pages
+      const showLeftEllipsis = currentPage > 3;
+      const showRightEllipsis = currentPage < totalPages - 2;
+
+      // First page
+      items.push(
+        <PaginationItem key={1}>
+          <PaginationLink
+            href="#"
+            isActive={currentPage === 1}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(1);
+            }}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+
+      // Left ellipsis
+      if (showLeftEllipsis) {
+        items.push(
+          <PaginationItem key="left-ellipsis">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Current page and neighbors
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              isActive={currentPage === i}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(i);
+              }}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      // Right ellipsis
+      if (showRightEllipsis) {
+        items.push(
+          <PaginationItem key="right-ellipsis">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Last page
+      if (totalPages > 1) {
+        items.push(
+          <PaginationItem key={totalPages}>
+            <PaginationLink
+              href="#"
+              isActive={currentPage === totalPages}
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(totalPages);
+              }}
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    }
+
+    return items;
+  };
 
   if (loading) {
     return (
@@ -194,7 +322,7 @@ const Products = () => {
           </div>
 
           {/* Products Grid */}
-          {filteredProducts.length === 0 ? (
+          {currentProducts.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-xl text-gray-600 mb-4">No products found</p>
               <p className="text-gray-500">Try adjusting your search or filter criteria</p>
@@ -209,7 +337,7 @@ const Products = () => {
                   : "grid-cols-1"
               }`}
             >
-              {filteredProducts.map((product, index) => (
+              {currentProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -224,10 +352,48 @@ const Products = () => {
             </motion.div>
           )}
 
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-12">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) {
+                          handlePageChange(currentPage - 1);
+                        }
+                      }}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+                  
+                  {renderPaginationItems()}
+                  
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) {
+                          handlePageChange(currentPage + 1);
+                        }
+                      }}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
+
           {/* Results Count */}
           <div className="text-center mt-8">
             <p className="text-gray-600">
-              Showing {filteredProducts.length} of {products.length} products
+              Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
+              {currentPage > 1 && ` (Page ${currentPage} of ${totalPages})`}
             </p>
           </div>
         </div>

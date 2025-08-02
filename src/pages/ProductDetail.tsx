@@ -306,11 +306,8 @@ const ProductDetail = () => {
               </div>
 
               {/* Trust Badges */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <Download className="h-8 w-8 text-green-500 mx-auto mb-2" />
-                  <p className="text-sm font-medium text-gray-700">Instant Download</p>
-                </div>
+              <div className="grid grid-cols-2 gap-4">
+               
                 <div className="text-center p-4 bg-white rounded-lg shadow-sm">
                   <Shield className="h-8 w-8 text-blue-500 mx-auto mb-2" />
                   <p className="text-sm font-medium text-gray-700">Commercial License</p>
