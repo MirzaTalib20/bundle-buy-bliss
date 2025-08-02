@@ -103,6 +103,20 @@ const ProductDetail = () => {
     }, 600);
   };
 
+  useEffect(() => {
+    if (product && typeof gtag !== 'undefined') {
+      gtag('event', 'view_item', {
+        currency: 'INR',
+        value: product.price,
+        items: [{
+          item_id: product.id,
+          item_name: product.name,
+          price: product.price
+        }]
+      });
+    }
+  }, [product]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-50 to-indigo-100">

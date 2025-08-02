@@ -21,6 +21,10 @@ import Products from "./pages/Products";
 import Admin from "./pages/Admin";
 import CancellationRefund from '@/pages/CancellationRefund';
 import Contact from '@/pages/Contact';
+import Analytics from "./components/Analytics";
+import OrderTracking from "./pages/OrderTracking";
+import AdminDashboard from "./pages/AdminDashboard";
+import TrustBadges from "./components/TrustBadges";
 
 const queryClient = new QueryClient();
 
@@ -29,20 +33,21 @@ const App = () => (
     <HelmetProvider>
       <TooltipProvider>
         <BrowserRouter>
+          <Analytics />
           <Toaster />
           <Sonner />
-         <ToastContainer
-  position="bottom-right"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop={true}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="dark"
-/>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
           <Navbar />
           <Routes>
             <Route path="/" element={<Index />} />
@@ -56,8 +61,11 @@ const App = () => (
             <Route path="/products" element={<Products />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/cancellation-refund" element={<CancellationRefund />} />
+            <Route path="/track-order" element={<OrderTracking />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <TrustBadges />
           <Footer />
         </BrowserRouter>
       </TooltipProvider>

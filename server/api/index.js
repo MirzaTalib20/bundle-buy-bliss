@@ -31,8 +31,13 @@ const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   description: String,
+  detailDescription: String,
   image: String,
   category: String,
+  popular: { type: Boolean, default: false },
+  rating: { type: Number, default: 4.5 },
+  features: [String],
+  url: String,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 }, {

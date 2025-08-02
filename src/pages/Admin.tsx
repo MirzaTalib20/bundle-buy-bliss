@@ -18,10 +18,33 @@ const Admin = () => {
     name: '',
     price: '',
     description: '',
+    detailDescription: '',
     image: '',
-    category: ''
+    category: '',
+    popular: false,
+    rating: 4.5,
+    features: [],
+    url: ''
   });
+  const [currentFeature, setCurrentFeature] = useState('');
   const { isAuthenticated, credentials, logout } = useAuthStore();
+
+  const addFeature = () => {
+    if (currentFeature.trim() && !newProduct.features.includes(currentFeature.trim())) {
+      setNewProduct({
+        ...newProduct,
+        features: [...newProduct.features, currentFeature.trim()]
+      });
+      setCurrentFeature('');
+    }
+  };
+
+  const removeFeature = (index) => {
+    setNewProduct({
+      ...newProduct,
+      features: newProduct.features.filter((_, i) => i !== index)
+    });
+  };
 
   // Category options
   const categoryOptions = [
@@ -81,7 +104,19 @@ const Admin = () => {
 
       if (response.ok) {
         toast.success('Product added successfully');
-        setNewProduct({ id: '', name: '', price: '', description: '', image: '', category: '' });
+        setNewProduct({ 
+          id: '', 
+          name: '', 
+          price: '', 
+          description: '', 
+          detailDescription: '',
+          image: '', 
+          category: '',
+          popular: false,
+          rating: 4.5,
+          features: [],
+          url: ''
+        });
         setShowAddForm(false);
         fetchProducts();
       } else {
@@ -97,7 +132,8 @@ const Admin = () => {
   const handleEditProduct = (product) => {
     setEditingProduct({
       ...product,
-      price: product.price.toString()
+      price: product.price.toString(),
+      features: product.features || []
     });
   };
 
@@ -277,6 +313,39 @@ const Admin = () => {
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Features</label>
+                  <div className="space-y-2">
+                    <div className="flex gap-2">
+                      <Input
+                        value={currentFeature}
+                        onChange={(e) => setCurrentFeature(e.target.value)}
+                        placeholder="Add a feature..."
+                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                      />
+                      <Button type="button" onClick={addFeature} variant="outline">
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    {newProduct.features.length > 0 && (
+                      <div className="space-y-1">
+                        {newProduct.features.map((feature, index) => (
+                          <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                            <span className="text-sm">{feature}</span>
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => removeFeature(index)}
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <div className="flex gap-2">
                   <Button type="submit">Add Product</Button>
                   <Button type="button" variant="outline" onClick={() => setShowAddForm(false)}>
@@ -365,6 +434,39 @@ const Admin = () => {
                       placeholder="https://example.com/image.jpg"
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Features</label>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <Input
+                          value={currentFeature}
+                          onChange={(e) => setCurrentFeature(e.target.value)}
+                          placeholder="Add a feature..."
+                          onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                        />
+                        <Button type="button" onClick={addFeature} variant="outline">
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      {editingProduct.features && editingProduct.features.length > 0 && (
+                        <div className="space-y-1">
+                          {editingProduct.features.map((feature, index) => (
+                            <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                              <span className="text-sm">{feature}</span>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => removeFeature(index)}
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   <div className="flex gap-2 justify-end">
                     <Button type="button" variant="outline" onClick={() => setEditingProduct(null)}>
                       Cancel
@@ -412,9 +514,17 @@ const Admin = () => {
                         <h3 className="font-semibold">{product.name}</h3>
                         <p className="text-sm text-muted-foreground">{product.description}</p>
                         <p className="text-sm font-medium">₹{product.price}</p>
-                        <p className="text-xs text-muted-foreground">ID: {product.id}</p>
+                        <p className="text-sm text-muted-foreground">ID: {product.id}</p>
                         {product.category && (
                           <p className="text-xs text-blue-600">Category: {product.category}</p>
+                        )}
+                        {product.features && product.features.length > 0 && (
+                          <p className="text-xs text-green-600">Features: {product.features.length} items</p>
+                        )}
+                        {product.popular && (
+                          <span className="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded mt-1">
+                            Featured
+                          </span>
                         )}
                       </div>
                     </div>

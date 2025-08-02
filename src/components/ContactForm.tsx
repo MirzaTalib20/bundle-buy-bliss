@@ -15,7 +15,7 @@ const ContactForm = () => {
     isSubmitted: false
   });
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setFormState({ ...formState, isSubmitting: true });
@@ -56,6 +56,14 @@ const ContactForm = () => {
       console.error(error);
       alert("Error submitting the form");
       setFormState((prev) => ({ ...prev, isSubmitting: false }));
+    }
+
+    // Track form submission
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'form_submit', {
+        event_category: 'engagement',
+        event_label: 'contact_form'
+      });
     }
   };
   
