@@ -31,7 +31,19 @@ interface ProductType {
   url?: string;
 }
 
-const categories = ["All", "Digital Assets", "Web Design", "Design Assets", "Courses", "YouTube", "Print on Demand", "Templates"];
+const categories = [
+  "All", 
+  "Pan India Database",
+  "Website and Theme Pluggins", 
+  "Youtube & Instagram Content Bundle",
+  "T-Shirt Printing design Bundle",
+  "ChatGPT Prompts",
+  "E books",
+  "Courses",
+  "Kids WorkSsheet", 
+  "Adobe Premium",
+  "Digital Assest"
+];
 const PRODUCTS_PER_PAGE = 12;
 
 const Products = () => {
@@ -65,6 +77,7 @@ const Products = () => {
       
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         const transformedProducts = data.map(product => ({
           ...product,
           rating: product.rating || 4.5,

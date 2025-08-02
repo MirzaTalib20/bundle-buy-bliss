@@ -35,7 +35,7 @@ const productSchema = new mongoose.Schema({
   image: String,
   category: String,
   popular: { type: Boolean, default: false },
-  rating: { type: Number, default: 4.5 },
+  rating: { type: Number, default: 4.5, min: 0, max: 5 },
   features: [String],
   url: String,
   createdAt: { type: Date, default: Date.now },
@@ -112,6 +112,7 @@ app.post('/api/products', async (req, res) => {
   try {
     await connectToDatabase();
     const product = new Product({ ...req.body, updatedAt: new Date() });
+    console.log(product)
     const savedProduct = await product.save();
     res.status(201).json(savedProduct);
   } catch (error) {

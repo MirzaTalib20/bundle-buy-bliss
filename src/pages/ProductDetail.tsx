@@ -258,7 +258,6 @@ const ProductDetail = () => {
                 </div>
                 
                 <p className="text-gray-600 text-lg leading-relaxed">
-                  {product.description}
                 </p>
               </div>
               
@@ -368,8 +367,9 @@ const ProductDetail = () => {
               {/* Tab Content */}
               <div className="p-6 lg:p-8">
                 {activeTab === 'description' && (
-                  <div className="prose prose-lg max-w-none">
+                  <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700">
                     <div 
+                      className="text-gray-700 leading-relaxed space-y-4"
                       dangerouslySetInnerHTML={{ 
                         __html: product.detailDescription || product.description 
                       }} 

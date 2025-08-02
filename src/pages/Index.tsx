@@ -92,21 +92,24 @@ const Index = () => {
     setIsAdding(true);
     
     setTimeout(() => {
-      productData.forEach(product => {
-        addItem({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          quantity: 1
+      products
+        .filter(product => product.popular)
+        .forEach(product => {
+          addItem({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+          });
         });
-      });
       
       setIsAdding(false);
       
+      const popularProducts = products.filter(product => product.popular);
       toast({
         title: "Success!",
-        description: `Bundle added to cart! ${productData.length} items added.`,
+        description: `Bundle added to cart! ${popularProducts.length} items added.`,
       });
     }, 600);
   };
@@ -229,12 +232,15 @@ const Index = () => {
                 </div>
               ))
             ) : (
-              products.slice(0, 8).map((product) => (
-                <ProductCard 
-                  key={product.id} 
-                  product={{...product, url: product.url ?? ''}} 
-                />
-              ))
+              products
+                .filter(product => product.popular)
+                .slice(0, 8)
+                .map((product) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={{...product, url: product.url ?? ''}} 
+                  />
+                ))
             )}
           </div>
 

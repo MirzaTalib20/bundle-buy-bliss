@@ -30,31 +30,55 @@ const Admin = () => {
   const { isAuthenticated, credentials, logout } = useAuthStore();
 
   const addFeature = () => {
-    if (currentFeature.trim() && !newProduct.features.includes(currentFeature.trim())) {
-      setNewProduct({
-        ...newProduct,
-        features: [...newProduct.features, currentFeature.trim()]
-      });
-      setCurrentFeature('');
+    if (editingProduct) {
+      // For editing mode
+      if (currentFeature.trim() && !editingProduct.features.includes(currentFeature.trim())) {
+        setEditingProduct({
+          ...editingProduct,
+          features: [...(editingProduct.features || []), currentFeature.trim()]
+        });
+        setCurrentFeature('');
+      }
+    } else {
+      // For adding new product mode
+      if (currentFeature.trim() && !newProduct.features.includes(currentFeature.trim())) {
+        setNewProduct({
+          ...newProduct,
+          features: [...newProduct.features, currentFeature.trim()]
+        });
+        setCurrentFeature('');
+      }
     }
   };
 
   const removeFeature = (index) => {
-    setNewProduct({
-      ...newProduct,
-      features: newProduct.features.filter((_, i) => i !== index)
-    });
+    if (editingProduct) {
+      // For editing mode
+      setEditingProduct({
+        ...editingProduct,
+        features: (editingProduct.features || []).filter((_, i) => i !== index)
+      });
+    } else {
+      // For adding new product mode
+      setNewProduct({
+        ...newProduct,
+        features: newProduct.features.filter((_, i) => i !== index)
+      });
+    }
   };
 
   // Category options
   const categoryOptions = [
-    "Digital Assets",
-    "Web Design", 
-    "Design Assets",
+    "Pan India Database",
+    "Website and Theme Pluggins", 
+    "Youtube & Instagram Content Bundle",
+    "T-Shirt Printing design Bundle",
+    "ChatGPT Prompts",
+    "E books",
     "Courses",
-    "YouTube",
-    "Print on Demand",
-    "Templates"
+    "Kids WorkSsheet", 
+    "Adobe Premium",
+    "Digital Assest"
   ];
 
   // Auto scroll to top when component mounts
@@ -135,6 +159,7 @@ const Admin = () => {
       price: product.price.toString(),
       features: product.features || []
     });
+    setCurrentFeature(''); // Clear any existing feature input
   };
 
   const handleUpdateProduct = async (e) => {
@@ -266,17 +291,27 @@ const Admin = () => {
                       required
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Price</label>
-                    <Input
-                      type="number"
-                      inputMode="decimal"
-                      step="0.01"
-                      value={newProduct.price}
-                      onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-                      placeholder="29.99"
-                      required
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Price (₹)</label>
+                      <Input
+                        type="number"
+                        value={newProduct.price}
+                        onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Rating (0-5)</label>
+                      <Input
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.1"
+                        value={newProduct.rating}
+                        onChange={(e) => setNewProduct({...newProduct, rating: parseFloat(e.target.value) || 4.5})}
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Category</label>
@@ -400,6 +435,17 @@ const Admin = () => {
                       />
                     </div>
                     <div>
+                      <label className="block text-sm font-medium mb-1">Rating (0-5)</label>
+                      <Input
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.1"
+                        value={editingProduct.rating || 4.5}
+                        onChange={(e) => setEditingProduct({...editingProduct, rating: parseFloat(e.target.value) || 4.5})}
+                      />
+                    </div>
+                    <div>
                       <label className="block text-sm font-medium mb-1">Category</label>
                       <select
                         value={editingProduct.category || ''}
@@ -414,6 +460,16 @@ const Admin = () => {
                           </option>
                         ))}
                       </select>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="edit-popular"
+                        checked={editingProduct.popular || false}
+                        onChange={(e) => setEditingProduct({...editingProduct, popular: e.target.checked})}
+                        className="rounded"
+                      />
+                      <label htmlFor="edit-popular" className="text-sm font-medium">Mark as Popular (Show on Index)</label>
                     </div>
                   </div>
                   <div>
