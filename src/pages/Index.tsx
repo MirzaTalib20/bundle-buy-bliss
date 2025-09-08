@@ -138,7 +138,7 @@ const Index = () => {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                Boost Your Business with <span className="gradient-text">Digital Hub</span>  Unbeatable Prices!
+                Boost Your Business with <span className="gradient-text">The Floo Hub</span>  Unbeatable Prices!
               </h1>
               
               <p className="text-lg text-muted-foreground max-w-xl">
@@ -194,13 +194,13 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-radial from-primary/20 to-transparent rounded-full blur-xl"></div>
                 <div className="glass-card rounded-xl overflow-hidden relative z-10 card-hover">
                   <img 
-                    src={homeImg}
+                    src={img6}
                     alt="Bundle Preview" 
                     className="w-full h-auto rounded-xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-xl font-bold">Resell Right Bundle</h3>
+                    <h3 className="text-xl font-bold"></h3>
                     <p className="text-muted-foreground">2000+ premium items with commercial license</p>
                   </div>
                 </div>

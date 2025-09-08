@@ -12,7 +12,7 @@ const Footer = () => {
               <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center">
                 <img src={logo} alt="Digital Hub Logo" className="h-8 w-8" />
               </div>
-              <span className="text-2xl font-bold">Digital Hub Products</span>
+              <span className="text-2xl font-bold">The Floo Hub Products</span>
             </Link>
             <p className="text-gray-300 mb-4 max-w-md">
               Your one-stop destination for premium digital products, courses, and assets. 
@@ -94,7 +94,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Digital Hub. All rights reserved.
+            © 2025 The Floo Hub. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <span className="text-gray-400 text-sm">Secure Payment:</span>
