@@ -10,11 +10,11 @@ const Shipping = () => {
   return (
     <>
       <Helmet>
-        <title>Shipping Policy | YourWebsiteName</title>
+        <title>Shipping Policy </title>
       </Helmet>
       <main className="max-w-4xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold mb-8 text-center">Shipping Policy</h1>
-        
+        <h1 className="text-2xl font-bold mb-2 text-center">Shipping Policy</h1>
+        <h2 className="text-3xl font-bold mb-8 text-center">  THE FLOO CREATIVE MARKETING AGENCY</h2>
         <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
           <p>
             As a digital product store, we deliver all our products electronically via email. 

@@ -13,8 +13,8 @@ const PrivacyPolicy = () => {
         <title>Privacy Policy | Digital Hub</title>
       </Helmet>
       <main className="max-w-4xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold mb-8 text-center">Privacy Policy</h1>
-        
+        <h1 className="text-2xl font-bold mb-2 text-center">Privacy Policy</h1>
+        <h2 className="text-3xl font-bold mb-8 text-center">  THE FLOO CREATIVE MARKETING AGENCY</h2>
         <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
           <p className="text-sm text-gray-500 mb-6">Last updated: January 2025</p>
           
