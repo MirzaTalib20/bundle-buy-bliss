@@ -101,15 +101,21 @@ const Terms = () => {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900">9. Contact Information</h2>
-            <p>
-              For questions about these Terms and Conditions, please contact us at:
-            </p>
-            <p className="font-semibold">
-              Email: digital.districtofficial@gmail.com
-            </p>
-          </section>
+         <section>
+  <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+    9. Contact Information
+  </h2>
+  <p>
+    For questions about these Terms and Conditions, please contact us at:
+  </p>
+  <p className="font-semibold">
+    THE FLOO CREATIVE MARKETING AGENCY
+  </p>
+  <p className="font-semibold">
+    Email: digital.districtofficial@gmail.com
+  </p>
+</section>
+
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-gray-900">10. Changes to Terms</h2>
