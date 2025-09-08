@@ -25,7 +25,7 @@ const OrderTracking = () => {
         id: orderId,
         status: 'completed',
         items: [
-          { name: 'Digital Marketing Bundle', downloadUrl: 'https://example.com/download1' },
+          { name: 'Digital Marketing Product', downloadUrl: 'https://example.com/download1' },
           { name: 'Premium Templates Pack', downloadUrl: 'https://example.com/download2' }
         ],
         createdAt: new Date(),

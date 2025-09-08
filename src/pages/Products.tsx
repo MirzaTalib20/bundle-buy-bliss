@@ -250,8 +250,8 @@ const Products = () => {
   return (
     <>
       <Helmet>
-        <title>Products - Bundle Buy Bliss</title>
-        <meta name="description" content="Browse our collection of premium digital products and bundles" />
+        <title>Products -  The Floo Hub</title>
+        <meta name="description" content="Browse our collection of premium digital products " />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
@@ -266,7 +266,7 @@ const Products = () => {
               Our Products
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover premium digital products and bundles to boost your business
+              Discover premium digital products  to boost your business
             </p>
           </motion.div>
 

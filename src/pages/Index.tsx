@@ -109,7 +109,7 @@ const Index = () => {
       const popularProducts = products.filter(product => product.popular);
       toast({
         title: "Success!",
-        description: `Bundle added to cart! ${popularProducts.length} items added.`,
+        description: `Product added to cart! ${popularProducts.length} items added.`,
       });
     }, 600);
   };
@@ -142,7 +142,7 @@ const Index = () => {
               </h1>
               
               <p className="text-lg text-muted-foreground max-w-xl">
-                Create and sell unlimited digital products with our massive bundles of premium assets. 
+                Create and sell unlimited digital products with our massive product of premium assets. 
                 All items come with commercial licenses.
               </p>
               
@@ -195,7 +195,7 @@ const Index = () => {
                 <div className="glass-card rounded-xl overflow-hidden relative z-10 card-hover">
                   <img 
                     src={img6}
-                    alt="Bundle Preview" 
+                    alt="Product Preview" 
                     className="w-full h-auto rounded-xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
@@ -267,7 +267,7 @@ const Index = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Who Is This <span className="highlight">For?</span></h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our bundle is perfect for a variety of creators and professionals looking to enhance their digital assets.
+              Our Product is perfect for a variety of creators and professionals looking to enhance their digital assets.
             </p>
           </div>
           
