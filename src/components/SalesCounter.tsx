@@ -43,7 +43,7 @@ const SalesCounter = () => {
             </div>
             <div>
               <p className="text-3xl font-bold">{salesCount}</p>
-              <p className="text-muted-foreground">Bundles Sold Today</p>
+              <p className="text-muted-foreground"> Sold Today</p>
             </div>
           </div>
         </motion.div>

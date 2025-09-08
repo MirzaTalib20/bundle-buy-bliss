@@ -16,7 +16,7 @@ const Footer = () => {
             </Link>
             <p className="text-gray-300 mb-4 max-w-md">
               Your one-stop destination for premium digital products, courses, and assets. 
-              Boost your business with our comprehensive bundles at unbeatable prices.
+              Boost your business with our comprehensive at unbeatable prices.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.facebook.com/share/162tzFQmB5/?mibextid=wwXIfr" className="text-gray-400 hover:text-white transition-colors">
