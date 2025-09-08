@@ -17,7 +17,7 @@ import img2 from "@/assest/img/adboe.jpg";
 import img3 from "@/assest/img/digital.jpg";
 import img4 from "@/assest/img/youtube.jpg";
 import img5 from "@/assest/img/premiumtshirt.png";
-import img6 from "@/assest/img/canva.png";
+import img6 from "@/assest/img/canva.jpg";
 import homeImg from "@/assest/img/Home.png";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';

@@ -33,16 +33,16 @@ interface ProductType {
 
 const categories = [
   "All", 
-  "Pan India Database",
-  "Website and Theme Pluggins", 
-  "Youtube & Instagram Content Bundle",
-  "T-Shirt Printing design Bundle",
-  "ChatGPT Prompts",
+  // "Pan India Database",
+  // "Website and Theme Pluggins", 
+  // "Youtube & Instagram Content ",
+  // "T-Shirt Printing design ",
+  // "ChatGPT Prompts",
   "E books",
-  "Courses",
-  "Kids WorkSsheet", 
-  "Adobe Premium",
-  "Digital Assest"
+  // "Courses",
+  // "Kids WorkSsheet", 
+  // "Adobe Premium",
+  // "Digital Assest"
 ];
 const PRODUCTS_PER_PAGE = 12;
 
