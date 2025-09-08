@@ -143,7 +143,7 @@ const Index = () => {
               
               <p className="text-lg text-muted-foreground max-w-xl">
                 Create and sell unlimited digital products with our massive product of premium assets. 
-                All items come with commercial licenses.
+                
               </p>
               
               <div className="flex flex-wrap gap-6 pt-2">
@@ -201,7 +201,7 @@ const Index = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="text-xl font-bold"></h3>
-                    <p className="text-muted-foreground">2000+ premium items with commercial license</p>
+                    <p className="text-muted-foreground"></p>
                   </div>
                 </div>
               </div>
@@ -305,7 +305,7 @@ const Index = () => {
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Creating?</h2>
             <p className="text-muted-foreground mb-8">
-              Get instant access to 2000+ premium items with commercial license and start creating professional digital products today.
+              Get instant access to 2000+ premium items, start creating professional digital products today.
             </p>
             
             <Button
