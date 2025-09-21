@@ -24,7 +24,10 @@ import Contact from '@/pages/Contact';
 import Analytics from "./components/Analytics";
 import OrderTracking from "./pages/OrderTracking";
 import AdminDashboard from "./pages/AdminDashboard";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailed from "./pages/PaymentFailed";
 import TrustBadges from "./components/TrustBadges";
+import PaymentPendingPage from './pages/PaymentPendingPage';
 
 const queryClient = new QueryClient();
 
@@ -63,6 +66,10 @@ const App = () => (
             <Route path="/cancellation-refund" element={<CancellationRefund />} />
             <Route path="/track-order" element={<OrderTracking />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/payment-pending" element={<PaymentPendingPage />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-failed" element={<PaymentFailed />} />
+            <Route path="/payment-error" element={<PaymentFailed />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <TrustBadges />
