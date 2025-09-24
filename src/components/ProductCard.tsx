@@ -54,13 +54,14 @@ const ProductCard = ({ product }: ProductProps) => {
       >
         <div className="relative flex-shrink-0">
           {product.image ? (
-            <div className="aspect-video overflow-hidden">
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-              />
-            </div>
+           <div className="aspect-video flex items-center justify-center overflow-hidden bg-white">
+  <img 
+    src={product.image} 
+    alt={product.name} 
+    className="max-h-full max-w-full object-contain object-center transition-transform duration-300 hover:scale-105"
+  />
+</div>
+
           ) : (
             <div className="aspect-video bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center">
               <Image className="h-12 w-12 text-primary/50" />

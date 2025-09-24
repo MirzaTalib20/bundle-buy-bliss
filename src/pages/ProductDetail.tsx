@@ -45,7 +45,7 @@ const ProductDetail = () => {
     try {
       setLoading(true);
       const response = await fetch(`${API_BASE}/api/products/public`);
-      
+      console.log('Fetch response:', response);
       if (response.ok) {
         const products = await response.json();
         setAllProducts(products);
@@ -177,38 +177,39 @@ const ProductDetail = () => {
               transition={{ duration: 0.6 }}
               className="order-1 lg:order-1"
             >
-              <div className="sticky top-4">
-                <div className="glass-card rounded-2xl overflow-hidden shadow-2xl">
-                  {product.image ? (
-                    <div className="relative aspect-video sm:aspect-square lg:aspect-video">
-                      <img 
-                        src={product.image} 
-                        alt={product.name} 
-                        className={`w-full h-full object-cover transition-opacity duration-300 ${
-                          imageLoaded ? 'opacity-100' : 'opacity-0'
-                        }`}
-                        onLoad={() => setImageLoaded(true)}
-                      />
-                      {!imageLoaded && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-                          <div className="animate-pulse">
-                            <Image className="h-16 w-16 text-primary/40" />
-                          </div>
-                        </div>
-                      )}
-                      {product.popular && (
-                        <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                          🔥 Popular
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="aspect-video sm:aspect-square lg:aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-                      <Image className="h-20 w-20 text-primary/40" />
-                    </div>
-                  )}
-                </div>
-              </div>
+             <div className="sticky top-4">
+  <div className="glass-card rounded-2xl overflow-hidden shadow-2xl">
+    {product.image ? (
+      <div className="relative aspect-video sm:aspect-square lg:aspect-video flex items-center justify-center bg-white">
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className={`max-h-full max-w-full object-contain object-center transition-opacity duration-300 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          onLoad={() => setImageLoaded(true)}
+        />
+        {!imageLoaded && (
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+            <div className="animate-pulse">
+              <Image className="h-16 w-16 text-primary/40" />
+            </div>
+          </div>
+        )}
+        {product.popular && (
+          <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+            🔥 Popular
+          </div>
+        )}
+      </div>
+    ) : (
+      <div className="aspect-video sm:aspect-square lg:aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+        <Image className="h-20 w-20 text-primary/40" />
+      </div>
+    )}
+  </div>
+</div>
+
             </motion.div>
             
             {/* Product Info */}
